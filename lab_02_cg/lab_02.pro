@@ -8,22 +8,25 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+DEPENDPATH += ./src
+INCLUDEPATH += ./inc
+
 SOURCES += \
-    controller.cpp \
-    errcodes.cpp \
-    geometry.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    model.cpp \
-    rendering_model.cpp
+    src/controller.cpp \
+    src/errcodes.cpp \
+    src/geometry.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/model.cpp \
+    src/rendering_model.cpp
 
 HEADERS += \
-    controller.h \
-    errorcodes.h \
-    geometry.h \
-    mainwindow.h \
-    model.h \
-    rendering_model.h
+    inc/controller.h \
+    inc/errorcodes.h \
+    inc/geometry.h \
+    inc/mainwindow.h \
+    inc/model.h \
+    inc/rendering_model.h
 
 FORMS += \
     mainwindow.ui

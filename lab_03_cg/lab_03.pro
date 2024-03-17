@@ -13,15 +13,19 @@ INCLUDEPATH += ./inc
 
 SOURCES += \
     src/errorcodes.cpp \
+    src/geometry.cpp \
+    src/lines.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/model.cpp
+    src/rendering_lines.cpp
 
 HEADERS += \
     inc/controller.h \
     inc/errorcodes.h \
+    inc/geometry.h \
+    inc/lines.h \
     inc/mainwindow.h \
-    inc/model.h
+    inc/rendering_lines.h
 
 FORMS += \
     mainwindow.ui

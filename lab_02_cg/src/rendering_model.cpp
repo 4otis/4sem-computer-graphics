@@ -4,10 +4,19 @@
 void render_two_close_points(render_t &params, point_t &p1, point_t &p2) { params.scene->addLine(p1.x, p1.y, p2.x, p2.y); }
 
 void render_all_points(render_t &params, model_t &model) {
-    render_two_close_points(params, model.points_arr[0], model.points_arr[model.points_alen - 1]);
+    for (size_t i = 0; i < model.points_alen - 4 - 1; i++) {
+        if (i == 0)
+            render_two_close_points(params, model.points_arr[i], model.points_arr[model.points_alen - 4 - 1]);
 
-    for (size_t i = 0; i < model.points_alen - 1; i++) {
         render_two_close_points(params, model.points_arr[i], model.points_arr[i + 1]);
+    }
+
+    for (size_t i = model.points_alen - 4; i < model.points_alen - 1; i++) {
+        if (i == model.points_alen - 4)
+            params.scene->addLine(model.points_arr[i].x, model.points_arr[i].y, model.points_arr[model.points_alen - 1].x,
+                                  model.points_arr[model.points_alen - 1].y);
+
+        params.scene->addLine(model.points_arr[i].x, model.points_arr[i].y, model.points_arr[i + 1].x, model.points_arr[i + 1].y);
     }
 }
 
@@ -58,10 +67,7 @@ void render_extras(render_t &params) {
     params.scene->addLine(0, -320, 0, 320, QColor(0, 0, 255));
     params.scene->addLine(-430, 0, 430, 0, QColor(0, 0, 255));
 
-    qDebug() << params.rotate_center.x << params.rotate_center.y;
     render_ellipse_point(params, params.rotate_center, QColor(0, 200, 0));
-
-    qDebug() << params.scale_center.x << params.scale_center.y;
     render_ellipse_point(params, params.scale_center, QColor(255, 0, 255));
 }
 

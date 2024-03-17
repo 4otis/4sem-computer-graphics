@@ -35,15 +35,74 @@ int calc_epicycloid_point(build_t &params, point_t &p) {
     return 0;
 }
 
+double min_x(point_t *arr, size_t alen) {
+    double res = arr[0].x;
+
+    for (size_t i = 0; i < alen; i++)
+        if (res > arr[i].x)
+            res = arr[i].x;
+
+    return res;
+}
+
+double min_y(point_t *arr, size_t alen) {
+    double res = arr[0].y;
+
+    for (size_t i = 0; i < alen; i++)
+        if (res > arr[i].y)
+            res = arr[i].y;
+
+    return res;
+}
+
+double max_x(point_t *arr, size_t alen) {
+    double res = arr[0].x;
+
+    for (size_t i = 0; i < alen; i++)
+        if (res < arr[i].x)
+            res = arr[i].x;
+
+    return res;
+}
+
+double max_y(point_t *arr, size_t alen) {
+    double res = arr[0].y;
+
+    for (size_t i = 0; i < alen; i++)
+        if (res < arr[i].y)
+            res = arr[i].y;
+
+    return res;
+}
+
 error_t calc_all_points(build_t &params, point_t *arr, size_t &alen) {
 
     double angle = 0;
-    for (size_t i = 0; i < alen; i++) {
+    for (size_t i = 0; i < alen - 4; i++) {
         params.angle = degrees_to_radians(360 - angle);
         calc_epicycloid_point(params, arr[i]);
 
         angle += 1;
     }
+
+    double hor_offset = 50;
+    double ver_offset = 10;
+
+    point_t lt_p = {.x = min_x(arr, alen - 4) - hor_offset, .y = min_y(arr, alen - 4) - ver_offset};
+    point_t rt_p = {.x = max_x(arr, alen - 4) + hor_offset, .y = min_y(arr, alen - 4) - ver_offset};
+    point_t rb_p = {.x = max_x(arr, alen - 4) + hor_offset, .y = max_y(arr, alen - 4) + ver_offset};
+    point_t lb_p = {.x = min_x(arr, alen - 4) - hor_offset, .y = max_y(arr, alen - 4) + ver_offset};
+
+    // qDebug() << lt_p.x << lt_p.y;
+    // qDebug() << rt_p.x << rt_p.y;
+    // qDebug() << rb_p.x << rb_p.y;
+    // qDebug() << lb_p.x << lb_p.y;
+
+    arr[alen - 4] = lt_p;
+    arr[alen - 3] = rt_p;
+    arr[alen - 2] = rb_p;
+    arr[alen - 1] = lb_p;
+
     return SUCCESS;
 }
 

@@ -79,7 +79,6 @@ void MainWindow::on_btnMove_clicked() {
         show_error(rc);
     else {
         rc = render();
-        qDebug() << "rc:" << rc;
         if (rc)
             show_error(rc);
     }
@@ -95,20 +94,14 @@ void MainWindow::on_btnRotate_clicked() {
     new_req.rotate_data.center_p.x = ui->dspRotXcenter->value();
     new_req.rotate_data.center_p.y = ui->dspRotYcenter->value();
 
-    do {
-        error_t rc = action_handler(new_req);
-        if (rc) {
+    error_t rc = action_handler(new_req);
+    if (rc)
+        show_error(rc);
+    else {
+        rc = render();
+        if (rc)
             show_error(rc);
-            break;
-        } else {
-            rc = render();
-            if (rc) {
-                show_error(rc);
-                break;
-            }
-        }
-        delay(ui->horizontalSlider->value());
-    } while (ui->checkBoxAutoRotation->isChecked());
+    }
 }
 
 void MainWindow::on_btnScale_clicked() {
@@ -165,7 +158,12 @@ void MainWindow::on_btnStepBack_clicked() {
 void MainWindow::on_showTask_triggered() {
     QMessageBox::information(0, "Условие лабараторной",
                              "Нарисовать исходный рисунок (эпициклоиду),\n"
-                             "затем его переместить, промасштабировать и повернуть.");
+                             "затем его переместить, промасштабировать и повернуть.\n\n"
+                             "Уравнение эпициклоиды:\n"
+                             "x = (R + r) * cos(t) - R * cos((R + r) * t / a)\n"
+                             "y = (R + r) * sin(t) - R * sin((R + r) * t / a)\n"
+                             "где R/r = m/n - положительные числа,"
+                             "t = [0, 2pi * n]");
 }
 
 void MainWindow::on_dspRotXcenter_valueChanged(double arg1) {

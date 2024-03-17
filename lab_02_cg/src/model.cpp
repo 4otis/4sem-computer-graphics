@@ -26,8 +26,7 @@ void free_model(model_t &model) { destroy_points(model.points_arr); }
 error_t build_model(model_t &model, build_t &data) {
     destroy_points(model.points_arr);
 
-    model.points_alen = 360 * get_amount_of_rotations_for_epicycloid(data.a, data.b);
-    qDebug() << "alen:" << model.points_alen;
+    model.points_alen = 360 * get_amount_of_rotations_for_epicycloid(data.a, data.b) + 4;
     error_t rc = alloc_model(model, model.points_alen);
 
     if (rc == SUCCESS)

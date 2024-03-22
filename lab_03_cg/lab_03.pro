@@ -12,6 +12,7 @@ DEPENDPATH += ./src
 INCLUDEPATH += ./inc
 
 SOURCES += \
+    src/controller.cpp \
     src/errorcodes.cpp \
     src/geometry.cpp \
     src/lines.cpp \

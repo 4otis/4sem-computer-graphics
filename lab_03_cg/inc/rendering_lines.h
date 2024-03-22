@@ -14,6 +14,6 @@ struct render {
 };
 using render_t = struct render;
 
-error_t render_lines(lines_t &lines, render_t);
+error_t render_lines(render_t &data, lines_t &lines);
 
 #endif // RENDERING_LINES_H

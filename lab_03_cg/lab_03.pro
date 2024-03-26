@@ -13,6 +13,7 @@ INCLUDEPATH += ./inc
 
 SOURCES += \
     src/controller.cpp \
+    src/draw_algorithms.cpp \
     src/errorcodes.cpp \
     src/geometry.cpp \
     src/lines.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     inc/controller.h \
+    inc/draw_algorithms.h \
     inc/errorcodes.h \
     inc/geometry.h \
     inc/lines.h \

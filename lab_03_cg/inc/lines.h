@@ -43,5 +43,6 @@ error_t create_line(lines_t &lines, build_line_t &data);
 error_t create_lines(lines_t &lines, build_lines_t &data);
 error_t change_fill_color(lines_t &lines, change_color_t &data);
 error_t change_lines_color(lines_t &lines, QColor &color);
+error_t clear_lines(lines_t &lines);
 
 #endif // LINES_H

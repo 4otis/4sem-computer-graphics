@@ -18,6 +18,9 @@ error_t handle_action(request_t &req) {
     case CHANGE_COLOR:
         rc = change_fill_color(lines, req.new_color);
         break;
+    case CLEAR:
+        rc = change_fill_color(lines, req.new_color);
+        break;
     default:
         rc = INVALID_REQUEST_ERROR;
         break;

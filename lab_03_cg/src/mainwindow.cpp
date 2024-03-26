@@ -14,6 +14,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() { delete ui; }
 
+draw_algorithm_t MainWindow::get_draw_line_alg() {
+    int ind = ui->comboBox->currentIndex();
+    switch (ind) {
+    case 0:
+        return DDA;
+    case 1:
+        return BRESENHAM_INT;
+    case 2:
+        return BRESENHAM_FLOAT;
+    case 3:
+        return BRESENHAM_MODIFIED;
+    case 4:
+        return WU;
+    default:
+        break;
+    }
+    return BUILT_IN;
+}
+
 error_t MainWindow::render() {
     request_t new_req;
 
@@ -21,6 +40,7 @@ error_t MainWindow::render() {
 
     new_req.render.scene = ui->graphicsView->scene();
     new_req.render.bg_color = BG_COLOR;
+    new_req.render.draw_line_alg = get_draw_line_alg();
 
     return handle_action(new_req);
     return SUCCESS;
@@ -82,6 +102,12 @@ void MainWindow::change_fill_color() {
         if (rc)
             show_error(rc);
     }
+}
+
+void MainWindow::on_btnClearScreen_clicked() {
+    request_t new_req;
+
+    new_req.action = CLEAR;
 }
 
 void MainWindow::on_btnBgColorRED_clicked() {

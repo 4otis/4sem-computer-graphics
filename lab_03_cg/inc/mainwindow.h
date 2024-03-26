@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "draw_algorithms.h"
 #include "errorcodes.h"
 #include <QMainWindow>
 
@@ -16,6 +17,7 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     error_t render();
+    draw_algorithm_t get_draw_line_alg();
     void update_bg_color();
     void change_fill_color();
     ~MainWindow();
@@ -49,6 +51,8 @@ private slots:
     void on_btnLineColorBLACK_clicked();
 
     void on_btnCreateLines_clicked();
+
+    void on_btnClearScreen_clicked();
 
 private:
     Ui::MainWindow *ui;

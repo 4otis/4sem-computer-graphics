@@ -148,17 +148,22 @@
        </item>
        <item>
         <property name="text">
-         <string>Брезенхема (действительный)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Брезенхема (целочисленный)</string>
         </property>
        </item>
        <item>
         <property name="text">
+         <string>Брезенхема (действительный)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Брезенхема с устранением ступенчатости</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ВУ</string>
         </property>
        </item>
        <item>
@@ -211,7 +216,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>150.000000000000000</double>
+        <double>320.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -359,7 +364,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>50.000000000000000</double>
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -435,7 +440,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>100.000000000000000</double>
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -479,7 +484,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>-60.000000000000000</double>
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </item>

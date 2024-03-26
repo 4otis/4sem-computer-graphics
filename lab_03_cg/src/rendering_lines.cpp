@@ -15,9 +15,32 @@ error_t render_all_lines(render_t &data, lines_t &lines) {
     if (is_lines_empty(lines))
         return LINES_NOT_BUILDED;
 
-    for (size_t i = 0; i < lines.alen; i++)
-        render_line(data, lines.arr[i], lines.color);
+    qDebug() << data.draw_line_alg;
 
+    for (size_t i = 0; i < lines.alen; i++)
+        switch (data.draw_line_alg) {
+        case BUILT_IN:
+            render_line(data, lines.arr[i], lines.color);
+            break;
+        case DDA:
+            draw_line_dda(data, lines.arr[i], lines.color);
+            break;
+        case BRESENHAM_INT:
+            draw_line_bresenham_int(data, lines.arr[i], lines.color);
+            break;
+        // case BRESENHAM_FLOAT:
+        //     draw_line_bresenham_float(data, lines.arr[i], lines.color);
+        //     break;
+        // case BRESENHAM_MODIFIED:
+        //     draw_line_bresenham_modified(data, lines.arr[i], lines.color);
+        //     break;
+        // case WU:
+        //     draw_line_wu(data, lines.arr[i], lines.color);
+        //     break;
+        default:
+            render_line(data, lines.arr[i], lines.color);
+            break;
+        }
     return SUCCESS;
 }
 

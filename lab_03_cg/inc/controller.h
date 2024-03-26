@@ -6,7 +6,7 @@
 #include "lines.h"
 #include "rendering_lines.h"
 
-enum actions { CREATE_LINE, CREATE_LINES, CHANGE_COLOR, RENDER };
+enum actions { CREATE_LINE, CREATE_LINES, CHANGE_COLOR, RENDER, CLEAR };
 using action_t = enum actions;
 
 struct request {

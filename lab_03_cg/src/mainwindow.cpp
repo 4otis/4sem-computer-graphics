@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
+    this->setWindowTitle("Лабораторная работа 3");
+
     ui->graphicsView->setScene(scene);
 }
 
@@ -24,7 +26,7 @@ draw_algorithm_t MainWindow::get_draw_line_alg() {
     case 2:
         return BRESENHAM_FLOAT;
     case 3:
-        return BRESENHAM_MODIFIED;
+        return BRESENHAM_SMOOTH;
     case 4:
         return WU;
     default:
@@ -39,6 +41,8 @@ error_t MainWindow::render() {
     new_req.action = RENDER;
 
     new_req.render.scene = ui->graphicsView->scene();
+    new_req.render.width = ui->graphicsView->width();
+    new_req.render.height = ui->graphicsView->height();
     new_req.render.bg_color = BG_COLOR;
     new_req.render.draw_line_alg = get_draw_line_alg();
 

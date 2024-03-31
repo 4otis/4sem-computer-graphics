@@ -79,7 +79,9 @@ error_t create_lines(lines_t &lines, build_lines_t &data) {
     if (tmp_calc == 0)
         rc = WRONG_ANGLE_ERROR;
     else {
-        // lines.alen = tmp_calc + ((360 % (int)data.angle) != 0);
+        qDebug() << "alen: " << tmp_calc;
+        if ((360 % (int)data.angle) != 0)
+            ++tmp_calc;
         lines.alen = tmp_calc;
         qDebug() << "alen: " << tmp_calc;
         lines.arr = alloc_lines(lines.alen);

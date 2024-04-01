@@ -2,7 +2,10 @@
 #include <QDebug>
 #include <cmath>
 
-void draw_line_dda(render_t &data, line_t &line) {
+QList<point_t> draw_line_dda(render_t &data, line_t &line, bool stat_mode) {
+    QList<point_t> points_list;
+    point_t point;
+
     float x1 = line.p1.x, y1 = line.p1.y;
     float x2 = line.p2.x, y2 = line.p2.y;
 
@@ -14,12 +17,22 @@ void draw_line_dda(render_t &data, line_t &line) {
     float x_inc = (float)dx / step;
     float y_inc = (float)dy / step;
 
-    for (int i = 0; i < step; i++) {
-        data.p->drawPoint(round(x1), round(y1));
-        // qDebug() << round(x1) << round(y1);
-        x1 += x_inc;
-        y1 += y_inc;
-    }
+    if (!stat_mode) {
+        for (int i = 0; i < step; i++) {
+            point = {.x = round(x1), .y = round(y1)};
+            points_list.push_back(point);
+            // data.p->drawPoint(round(x1), round(y1));
+            x1 += x_inc;
+            y1 += y_inc;
+        }
+    } else
+        for (int i = 0; i < step; i++) {
+            point = {.x = round(x1), .y = round(y1)};
+            x1 += x_inc;
+            y1 += y_inc;
+        }
+
+    return points_list;
 }
 
 void draw_line_bresenham_int(render_t &data, line_t &line) {
@@ -67,65 +80,6 @@ void draw_line_bresenham_float(render_t &data, line_t &line) {
         y += yIncrement;
     }
 }
-
-// void draw_line_bresenham_smooth(render_t &data, line_t &line) {
-//     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
-//     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
-
-//     int deltaX = fabs(x2 - x1);
-//     int deltaY = fabs(y2 - y1);
-//     qDebug() << "dX:" << deltaX << "dY:" << deltaY;
-
-//     int signX = x1 < x2 ? 1 : -1;
-//     int signY = y1 < y2 ? 1 : -1;
-
-//     if (!deltaX)
-//         signX = 0;
-//     if (!deltaY)
-//         signY = 0;
-
-//     float intensivity = 1;
-//     int dx_less_than_dy;
-
-//     float tg = (float)deltaY / deltaX;
-
-//     if (tg > 1) {
-//         int tmp = deltaX;
-//         deltaX = deltaY;
-//         deltaY = tmp;
-
-//         dx_less_than_dy = 1;
-//     } else
-//         dx_less_than_dy = 0;
-
-//     tg *= intensivity;
-//     float cur_intensivity = (float)intensivity / 2;
-//     qDebug() << "e:" << cur_intensivity << "treshold:" << tg;
-//     float treshold_value = intensivity - tg;
-
-//     int x = x1, y = y1;
-//     // size_t steps = 0;
-
-//     data.p->drawPoint(x, y);
-//     while (x != x2 || y != y2) {
-//         qDebug() << x << y;
-//         qDebug() << "e:" << cur_intensivity << "treshold:" << treshold_value;
-
-//         if (cur_intensivity <= treshold_value) {
-//             if (dx_less_than_dy == 0)
-//                 x += signX;
-//             else
-//                 y += signY;
-
-//             cur_intensivity += tg;
-//         } else {
-//             x += signX;
-//             y += signY;
-//             cur_intensivity -= treshold_value;
-//         }
-//         data.p->drawPoint(x, y);
-//     }
-// }
 
 void draw_line_bresenham_smooth(render_t &data, line_t &line) {
     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;

@@ -81,7 +81,10 @@ QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode) {
     return points_list;
 }
 
-void draw_line_bresenham_float(render_t &data, line_t &line) {
+QList<point_t> draw_line_bresenham_float(line_t &line, bool stat_mode) {
+    QList<point_t> points_list;
+    point_t point;
+
     float x1 = line.p1.x, y1 = line.p1.y;
     float x2 = line.p2.x, y2 = line.p2.y;
 
@@ -95,11 +98,21 @@ void draw_line_bresenham_float(render_t &data, line_t &line) {
     float x = x1;
     float y = y1;
 
-    for (int i = 0; i <= steps; i++) {
-        data.p->drawPoint(round(x), round(y));
-        x += xIncrement;
-        y += yIncrement;
-    }
+    if (!stat_mode)
+        for (int i = 0; i <= steps; i++) {
+            point = {.x = round(x), .y = round(y)};
+            points_list.push_back(point);
+            x += xIncrement;
+            y += yIncrement;
+        }
+    else
+        for (int i = 0; i <= steps; i++) {
+            point = {.x = round(x), .y = round(y)};
+            x += xIncrement;
+            y += yIncrement;
+        }
+
+    return points_list;
 }
 
 void draw_line_bresenham_smooth(render_t &data, line_t &line) {
@@ -108,15 +121,14 @@ void draw_line_bresenham_smooth(render_t &data, line_t &line) {
 
     int deltaX = fabs(x2 - x1);
     int deltaY = fabs(y2 - y1);
-    qDebug() << "dX:" << deltaX << "dY:" << deltaY;
 
     int signX = x1 < x2 ? 1 : -1;
     int signY = y1 < y2 ? 1 : -1;
 
-    if (!deltaX)
-        signX = 0;
-    if (!deltaY)
-        signY = 0;
+    // if (!deltaX)
+    //     signX = 0;
+    // if (!deltaY)
+    //     signY = 0;
 
     float intensivity = 100;
     int was_swaped;
@@ -137,7 +149,7 @@ void draw_line_bresenham_smooth(render_t &data, line_t &line) {
     int x = x1, y = y1;
     data.p->drawPoint(x, y);
     while (x != x2 || y != y2) {
-        qDebug() << "e:" << e << "w:" << w << "m:" << m;
+        // qDebug() << "e:" << e << "w:" << w << "m:" << m;
 
         if (e < w) {
             if (was_swaped) // dx < dy

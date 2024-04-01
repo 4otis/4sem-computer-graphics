@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <cmath>
 
-QList<point_t> draw_line_dda(render_t &data, line_t &line, bool stat_mode) {
+QList<point_t> draw_line_dda(line_t &line, bool stat_mode) {
     QList<point_t> points_list;
     point_t point;
 
@@ -35,7 +35,10 @@ QList<point_t> draw_line_dda(render_t &data, line_t &line, bool stat_mode) {
     return points_list;
 }
 
-void draw_line_bresenham_int(render_t &data, line_t &line) {
+QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode) {
+    QList<point_t> points_list;
+    point_t point;
+
     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
@@ -46,18 +49,36 @@ void draw_line_bresenham_int(render_t &data, line_t &line) {
     const int signY = y1 < y2 ? 1 : -1;
     int error = deltaX - deltaY;
 
-    while (x1 != x2 || y1 != y2) {
-        data.p->drawPoint((int)x1, (int)y1);
-        int error2 = error * 2;
-        if (error2 > -deltaY) {
-            error -= deltaY;
-            x1 += signX;
+    if (!stat_mode) {
+        while (x1 != x2 || y1 != y2) {
+            point = {.x = (int)x1, .y = (int)y1};
+            points_list.push_back(point);
+            // data.p->drawPoint((int)x1, (int)y1);
+            int error2 = error * 2;
+            if (error2 > -deltaY) {
+                error -= deltaY;
+                x1 += signX;
+            }
+            if (error2 < deltaX) {
+                error += deltaX;
+                y1 += signY;
+            }
         }
-        if (error2 < deltaX) {
-            error += deltaX;
-            y1 += signY;
+    } else
+        while (x1 != x2 || y1 != y2) {
+            point = {.x = (int)x1, .y = (int)y1};
+            int error2 = error * 2;
+            if (error2 > -deltaY) {
+                error -= deltaY;
+                x1 += signX;
+            }
+            if (error2 < deltaX) {
+                error += deltaX;
+                y1 += signY;
+            }
         }
-    }
+
+    return points_list;
 }
 
 void draw_line_bresenham_float(render_t &data, line_t &line) {

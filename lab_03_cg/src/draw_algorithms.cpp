@@ -67,8 +67,67 @@ void draw_line_bresenham_float(render_t &data, line_t &line) {
         y += yIncrement;
     }
 }
-void draw_line_bresenham_smooth(render_t &data, line_t &line) {
 
+// void draw_line_bresenham_smooth(render_t &data, line_t &line) {
+//     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+//     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
+
+//     int deltaX = fabs(x2 - x1);
+//     int deltaY = fabs(y2 - y1);
+//     qDebug() << "dX:" << deltaX << "dY:" << deltaY;
+
+//     int signX = x1 < x2 ? 1 : -1;
+//     int signY = y1 < y2 ? 1 : -1;
+
+//     if (!deltaX)
+//         signX = 0;
+//     if (!deltaY)
+//         signY = 0;
+
+//     float intensivity = 1;
+//     int dx_less_than_dy;
+
+//     float tg = (float)deltaY / deltaX;
+
+//     if (tg > 1) {
+//         int tmp = deltaX;
+//         deltaX = deltaY;
+//         deltaY = tmp;
+
+//         dx_less_than_dy = 1;
+//     } else
+//         dx_less_than_dy = 0;
+
+//     tg *= intensivity;
+//     float cur_intensivity = (float)intensivity / 2;
+//     qDebug() << "e:" << cur_intensivity << "treshold:" << tg;
+//     float treshold_value = intensivity - tg;
+
+//     int x = x1, y = y1;
+//     // size_t steps = 0;
+
+//     data.p->drawPoint(x, y);
+//     while (x != x2 || y != y2) {
+//         qDebug() << x << y;
+//         qDebug() << "e:" << cur_intensivity << "treshold:" << treshold_value;
+
+//         if (cur_intensivity <= treshold_value) {
+//             if (dx_less_than_dy == 0)
+//                 x += signX;
+//             else
+//                 y += signY;
+
+//             cur_intensivity += tg;
+//         } else {
+//             x += signX;
+//             y += signY;
+//             cur_intensivity -= treshold_value;
+//         }
+//         data.p->drawPoint(x, y);
+//     }
+// }
+
+void draw_line_bresenham_smooth(render_t &data, line_t &line) {
     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
@@ -79,45 +138,44 @@ void draw_line_bresenham_smooth(render_t &data, line_t &line) {
     int signX = x1 < x2 ? 1 : -1;
     int signY = y1 < y2 ? 1 : -1;
 
-    float intensivity = 255;
-    int dx_less_than_dy;
+    if (!deltaX)
+        signX = 0;
+    if (!deltaY)
+        signY = 0;
 
-    float tg = (float)deltaY / deltaX;
+    float intensivity = 100;
+    int was_swaped;
 
-    if (tg > 1) {
-        int tmp = deltaX;
-        deltaX = deltaY;
-        deltaY = tmp;
+    float m = (float)deltaY / deltaX;
+    if (m > 1) {
+        m = (float)1 / (float)m;
 
-        dx_less_than_dy = 1;
+        was_swaped = 1;
     } else
-        dx_less_than_dy = 0;
+        was_swaped = 0;
 
-    tg *= intensivity;
-    float cur_intensivity = (float)intensivity / 2;
-    qDebug() << "e:" << cur_intensivity << "treshold:" << tg;
-    float treshold_value = intensivity - tg;
+    m *= intensivity;
+    float w = intensivity - m;
+    float e = 0.5;
 
+    // drawpoint intens = m / 2
     int x = x1, y = y1;
-    // size_t steps = 0;
-
     data.p->drawPoint(x, y);
     while (x != x2 || y != y2) {
-        // qDebug() << x << y;
-        // qDebug() << "e:" << cur_intensivity << "treshold:" << treshold_value;
+        qDebug() << "e:" << e << "w:" << w << "m:" << m;
 
-        if (cur_intensivity <= treshold_value) {
-            if (dx_less_than_dy == 0)
-                x += signX;
-            else
+        if (e < w) {
+            if (was_swaped) // dx < dy
                 y += signY;
-
-            cur_intensivity += tg;
+            else
+                x += signX;
+            e += m;
         } else {
             x += signX;
             y += signY;
-            cur_intensivity -= treshold_value;
+            e -= w;
         }
+        // drawpoint intens = e
         data.p->drawPoint(x, y);
     }
 }

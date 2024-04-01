@@ -55,6 +55,7 @@ error_t render_lines(render_t &data, lines_t &lines) {
     QPainter painter(&pixmap);
 
     data.p = &painter;
+    // lines.color.setAlphaF();
     data.p->setPen(lines.color);
 
     fill_scene_background(data);

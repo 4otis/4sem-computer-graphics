@@ -22,7 +22,7 @@ using render_t = struct render;
 QList<point_t> draw_line_dda(line_t &line, bool stat_mode);
 QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode);
 QList<point_t> draw_line_bresenham_float(line_t &line, bool stat_mode);
-void draw_line_bresenham_smooth(line_t &line, bool stat_mode);
+QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode);
 void draw_line_wu(line_t &line, bool stat_mode);
 
 #endif // DRAW_ALGORITHMS_H

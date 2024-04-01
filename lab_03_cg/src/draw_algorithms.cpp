@@ -115,7 +115,10 @@ QList<point_t> draw_line_bresenham_float(line_t &line, bool stat_mode) {
     return points_list;
 }
 
-void draw_line_bresenham_smooth(render_t &data, line_t &line) {
+QList<point_Af_t> draw_line_bresenham_smooth(render_t &data, line_t &line) {
+    QList<point_Af_t> points_list;
+    point_Af_t point;
+
     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
@@ -145,26 +148,47 @@ void draw_line_bresenham_smooth(render_t &data, line_t &line) {
     float w = intensivity - m;
     float e = 0.5;
 
-    // drawpoint intens = m / 2
     int x = x1, y = y1;
-    data.p->drawPoint(x, y);
-    while (x != x2 || y != y2) {
-        // qDebug() << "e:" << e << "w:" << w << "m:" << m;
+    if (!stat_mode) {
+        point = {.x = x1, .y = y1, .Af = (float)m / 2};
+        points_list.push_back(point);
+        while (x != x2 || y != y2) {
+            // qDebug() << "e:" << e << "w:" << w << "m:" << m;
 
-        if (e < w) {
-            if (was_swaped) // dx < dy
-                y += signY;
-            else
+            if (e < w) {
+                if (was_swaped) // dx < dy
+                    y += signY;
+                else
+                    x += signX;
+                e += m;
+            } else {
                 x += signX;
-            e += m;
-        } else {
-            x += signX;
-            y += signY;
-            e -= w;
+                y += signY;
+                e -= w;
+            }
+            // drawpoint intens = e
+            point = {.x = x, .y = y, .Af = e};
+            points_list.push_back(point);
         }
-        // drawpoint intens = e
-        data.p->drawPoint(x, y);
+    } else {
+        point = {.x = x1, .y = y1, .Af = (float)m / 2};
+        while (x != x2 || y != y2) {
+            if (e < w) {
+                if (was_swaped) // dx < dy
+                    y += signY;
+                else
+                    x += signX;
+                e += m;
+            } else {
+                x += signX;
+                y += signY;
+                e -= w;
+            }
+            point = {.x = x, .y = y, .Af = e};
+        }
     }
+
+    return points_list;
 }
 
 void draw_line_wu(render_t &data, line_t &line);

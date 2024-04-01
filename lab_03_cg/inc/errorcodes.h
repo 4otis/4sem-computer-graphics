@@ -1,8 +1,6 @@
 #ifndef ERRORCODES_H
 #define ERRORCODES_H
 
-#include <QMessageBox>
-
 enum errors { SUCCESS, MEMORY_ALLOCATION_ERROR, WRONG_ANGLE_ERROR, LINES_NOT_BUILDED, INVALID_REQUEST_ERROR };
 using error_t = enum errors;
 

@@ -7,6 +7,13 @@ struct point {
 };
 using point_t = struct point;
 
+struct point_Af {
+    double x;
+    double y;
+    float Af;
+};
+using point_Af_t = struct point_Af;
+
 struct two_points {
     point_t p1;
     point_t p2;

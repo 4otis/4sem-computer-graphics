@@ -133,20 +133,20 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
     // if (!deltaY)
     //     signY = 0;
 
-    float intensivity = 100;
+    float intensivity = 1;
     int was_swaped;
 
     float m = (float)deltaY / deltaX;
     if (m > 1) {
         m = (float)1 / (float)m;
 
-        was_swaped = 1;
+        was_swaped = 2;
     } else
         was_swaped = 0;
 
     m *= intensivity;
     float w = intensivity - m;
-    float e = 0.5;
+    float e = intensivity / 2;
 
     int x = x1, y = y1;
     if (!stat_mode) {
@@ -167,7 +167,7 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
                 e -= w;
             }
             // drawpoint intens = e
-            point = {.x = x, .y = y, .Af = e};
+            point = {.x = x, .y = y, .Af = e * intensivity};
             points_list.push_back(point);
         }
     } else {
@@ -191,18 +191,18 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
     return points_list;
 }
 
-QList<point_Af_t> draw_line_wu(line_t &line, bool stat_mode) {
-    QList<point_Af_t> points_list;
-    point_Af_t point;
+// QList<point_Af_t> draw_line_wu(line_t &line, bool stat_mode) {
+//     QList<point_Af_t> points_list;
+//     point_Af_t point;
 
-    int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
-    int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
+//     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+//     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
-    int deltaX = fabs(x2 - x1);
-    int deltaY = fabs(y2 - y1);
+//     int deltaX = fabs(x2 - x1);
+//     int deltaY = fabs(y2 - y1);
 
-    int signX = x1 < x2 ? 1 : -1;
-    int signY = y1 < y2 ? 1 : -1;
+//     int signX = x1 < x2 ? 1 : -1;
+//     int signY = y1 < y2 ? 1 : -1;
 
-    return points_list;
-}
+//     return points_list;
+// }

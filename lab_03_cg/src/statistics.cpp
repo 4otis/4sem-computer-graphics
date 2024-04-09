@@ -107,115 +107,84 @@ void count_steps_line_bresenham_int(size_t &steps, line_t &line) {
     }
 }
 
-// void draw_line_bresenham_float(size_t &steps, line_t &line) {
-//     QList<point_t> points_list;
-//     point_t point;
+void count_steps_line_bresenham_float(size_t &steps, line_t &line) {
+    float x1 = line.p1.x, y1 = line.p1.y;
+    float x2 = line.p2.x, y2 = line.p2.y;
 
-//     float x1 = line.p1.x, y1 = line.p1.y;
-//     float x2 = line.p2.x, y2 = line.p2.y;
+    float dx = x2 - x1;
+    float dy = y2 - y1;
 
-//     float dx = x2 - x1;
-//     float dy = y2 - y1;
+    float fsteps = std::max(fabs(dx), fabs(dy));
 
-//     float steps = std::max(fabs(dx), fabs(dy));
+    float xIncrement = dx / fsteps;
+    float yIncrement = dy / fsteps;
+    float x = x1;
+    float y = y1;
 
-//     float xIncrement = dx / steps;
-//     float yIncrement = dy / steps;
-//     float x = x1;
-//     float y = y1;
+    float prev_x = x, prev_y = y;
 
-//     if (!stat_mode)
-//         for (int i = 0; i <= steps; i++) {
-//             point = {.x = round(x), .y = round(y)};
-//             points_list.push_back(point);
-//             x += xIncrement;
-//             y += yIncrement;
-//         }
-//     else
-//         for (int i = 0; i <= steps; i++) {
-//             point = {.x = round(x), .y = round(y)};
-//             x += xIncrement;
-//             y += yIncrement;
-//         }
+    for (int i = 0; i <= steps; i++) {
+        if (round(prev_x) != round(x) && round(prev_y) != round(y)) {
+            ++steps;
+            prev_x = x;
+            prev_y = y;
+        }
 
-//     return points_list;
-// }
+        x += xIncrement;
+        y += yIncrement;
+    }
+}
 
-// void draw_line_bresenham_smooth(size_t &steps, line_t &line) {
-//     QList<point_Af_t> points_list;
-//     point_Af_t point;
+void count_steps_line_bresenham_smooth(size_t &steps, line_t &line) {
+    int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+    int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
-//     int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
-//     int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
+    int deltaX = fabs(x2 - x1);
+    int deltaY = fabs(y2 - y1);
 
-//     int deltaX = fabs(x2 - x1);
-//     int deltaY = fabs(y2 - y1);
+    int signX = x1 < x2 ? 1 : -1;
+    int signY = y1 < y2 ? 1 : -1;
 
-//     int signX = x1 < x2 ? 1 : -1;
-//     int signY = y1 < y2 ? 1 : -1;
+    float intensivity = 1;
+    int was_swaped;
 
-//     // if (!deltaX)
-//     //     signX = 0;
-//     // if (!deltaY)
-//     //     signY = 0;
+    float m = (float)deltaY / deltaX;
+    if (m > 1) {
+        m = (float)1 / (float)m;
 
-//     float intensivity = 1;
-//     int was_swaped;
+        was_swaped = 2;
+    } else
+        was_swaped = 0;
 
-//     float m = (float)deltaY / deltaX;
-//     if (m > 1) {
-//         m = (float)1 / (float)m;
+    m *= intensivity;
+    float w = intensivity - m;
+    float e = intensivity / 2;
 
-//         was_swaped = 2;
-//     } else
-//         was_swaped = 0;
+    int x = x1, y = y1;
 
-//     m *= intensivity;
-//     float w = intensivity - m;
-//     float e = intensivity / 2;
+    int prev_x = x1, prev_y = y1;
 
-//     int x = x1, y = y1;
-//     if (!stat_mode) {
-//         point = {.x = x1, .y = y1, .Af = (float)m / 2};
-//         points_list.push_back(point);
-//         while (x != x2 || y != y2) {
-//             // qDebug() << "e:" << e << "w:" << w << "m:" << m;
+    while (x != x2 || y != y2) {
+        if (e < w) {
+            if (was_swaped) // dx < dy
+                y += signY;
+            else
+                x += signX;
+            e += m;
+        } else {
+            x += signX;
+            y += signY;
+            e -= w;
+            ++steps;
+        }
 
-//             if (e < w) {
-//                 if (was_swaped) // dx < dy
-//                     y += signY;
-//                 else
-//                     x += signX;
-//                 e += m;
-//             } else {
-//                 x += signX;
-//                 y += signY;
-//                 e -= w;
-//             }
-//             // drawpoint intens = e
-//             point = {.x = x, .y = y, .Af = e * intensivity};
-//             points_list.push_back(point);
-//         }
-//     } else {
-//         point = {.x = x1, .y = y1, .Af = (float)m / 2};
-//         while (x != x2 || y != y2) {
-//             if (e < w) {
-//                 if (was_swaped) // dx < dy
-//                     y += signY;
-//                 else
-//                     x += signX;
-//                 e += m;
-//             } else {
-//                 x += signX;
-//                 y += signY;
-//                 e -= w;
-//             }
-//             point = {.x = x, .y = y, .Af = e};
-//         }
-//     }
-
-//     return points_list;
-// }
+        if (prev_x != x && prev_y != y) {
+            prev_x = x;
+            prev_y = y;
+            ++steps;
+        }
+    }
+}
 
 void show_time_bar(QHBoxLayout *layout, size_t len) {
     QList<qreal> time_list;
@@ -285,24 +254,70 @@ void show_step_bar(QGridLayout *layout, size_t len) {
         angles[cur_angle] = cur_angle;
         count_steps_line_dda(DDA_steps[cur_angle], line);
         count_steps_line_bresenham_int(Bresenham_int_steps[cur_angle], line);
+        count_steps_line_bresenham_float(Bresenham_float_steps[cur_angle], line);
+        count_steps_line_bresenham_smooth(Bresenham_float_steps[cur_angle], line);
         // draw_line_dda(line, DDA_steps[cur_angle], false);
         rotate_point(line.p2, rotation_data);
     }
 
-    // Build a chart object
-    QChart *chart = new QChart();
-    // Building a fold line series object
+    QChart *chart1 = new QChart();
     QLineSeries *DDAseries = new QLineSeries();
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
-        series->append(angles[i], DDA_steps[i]);
-    QLineSeries *BRseries = new QLineSeries();
-    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
-        series->append(angles[i], DDA_steps[i]);
+        DDAseries->append(angles[i], DDA_steps[i]);
 
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-    QChartView *chartView = new QChartView(chart);
+    chart1->addSeries(DDAseries);
+    chart1->setTitle("ЦДА");
+    chart1->setMaximumWidth(285);
+    chart1->setMaximumHeight(315);
+    chart1->createDefaultAxes();
+    QChartView *chartView1 = new QChartView(chart1);
     // chartView->setRenderHint(QPainter::Antialiasing);
 
-    layout->addWidget(chartView);
+    QChart *chart2 = new QChart();
+    chart2->setTitle("Брезенхем(целые)");
+    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
+    chart2->setMaximumWidth(285);
+    chart2->setMaximumHeight(315);
+    QLineSeries *Bresenham_int_series = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_int_series->append(angles[i], Bresenham_int_steps[i]);
+    chart2->addSeries(Bresenham_int_series);
+    chart2->createDefaultAxes();
+    QChartView *chartView2 = new QChartView(chart2);
+
+    QChart *chart3 = new QChart();
+    chart3->setTitle("Брезенхем(веществ.)");
+    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
+    chart3->setMaximumWidth(285);
+    chart3->setMaximumHeight(315);
+    QLineSeries *Bresenham_float_series = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_float_series->append(angles[i], Bresenham_float_steps[i]);
+    chart3->addSeries(Bresenham_float_series);
+    chart3->createDefaultAxes();
+    QChartView *chartView3 = new QChartView(chart3);
+
+    QHBoxLayout *l1 = new QHBoxLayout();
+    layout->addLayout(l1, 0, 0);
+    l1->addWidget(chartView1);
+    l1->addWidget(chartView2);
+    l1->addWidget(chartView3);
+
+    QChart *chart4 = new QChart();
+    chart4->setTitle("Брезенхем с устр.ступ.");
+    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
+    chart4->setMaximumWidth(285);
+    chart4->setMaximumHeight(315);
+    QLineSeries *Bresenham_smooth_series = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_smooth_series->append(angles[i], Bresenham_smooth_steps[i]);
+    chart4->addSeries(Bresenham_smooth_series);
+    chart4->createDefaultAxes();
+    QChartView *chartView4 = new QChartView(chart4);
+
+    QHBoxLayout *l2 = new QHBoxLayout();
+    layout->addLayout(l2, 1, 0);
+    l2->addWidget(chartView4);
+    // l2->addWidget(chartView5);
+    // l2->addWidget(chartView6);
 }

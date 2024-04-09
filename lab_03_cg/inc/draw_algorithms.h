@@ -20,7 +20,7 @@ struct render {
 };
 using render_t = struct render;
 
-QList<point_t> draw_line_dda(line_t &line, bool stat_mode);
+QList<point_t> draw_line_dda(line_t &line, size_t &steps, bool stat_mode);
 QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode);
 QList<point_t> draw_line_bresenham_float(line_t &line, bool stat_mode);
 QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode);

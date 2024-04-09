@@ -54,6 +54,10 @@ private slots:
 
     void on_btnClearScreen_clicked();
 
+    void on_btnTimeStat_clicked();
+
+    void on_btnSteppingStat_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -39,7 +39,7 @@ struct rotate {
 using rotate_t = struct rotate;
 
 void rotate_two_points(two_points_t &points, double angle);
-
+void rotate_point(point_t &p, rotate_t &data);
 void add_two_points_to_line(line_t &line, two_points_t &data);
 
 #endif // GEOMETRY_H

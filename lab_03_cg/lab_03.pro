@@ -1,4 +1,7 @@
 QT       += core gui
+QT       += charts
+
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +22,8 @@ SOURCES += \
     src/lines.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/rendering_lines.cpp
+    src/rendering_lines.cpp \
+    src/statistics.cpp
 
 HEADERS += \
     inc/controller.h \
@@ -28,7 +32,8 @@ HEADERS += \
     inc/geometry.h \
     inc/lines.h \
     inc/mainwindow.h \
-    inc/rendering_lines.h
+    inc/rendering_lines.h \
+    inc/statistics.h
 
 FORMS += \
     mainwindow.ui

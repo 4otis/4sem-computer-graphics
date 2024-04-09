@@ -1,6 +1,14 @@
 #include "mainwindow.h"
+#include "QChartView"
+#include "QLineSeries"
 #include "controller.h"
+#include "statistics.h"
 #include "ui_mainwindow.h"
+#include <QApplication>
+#include <QBarCategoryAxis>
+#include <QBarSet>
+#include <QHorizontalBarSeries>
+#include <QValueAxis>
 
 QColor BG_COLOR = QColor(255, 255, 255);
 QColor FILL_COLOR = QColor(0, 0, 0);
@@ -36,6 +44,8 @@ draw_algorithm_t MainWindow::get_draw_line_alg() {
 }
 
 error_t MainWindow::render() {
+    ui->stackedWidget->setCurrentIndex(0);
+
     request_t new_req;
 
     new_req.action = RENDER;
@@ -51,6 +61,7 @@ error_t MainWindow::render() {
 }
 
 void MainWindow::on_btnCreateLine_clicked() {
+
     request_t new_req;
 
     new_req.action = CREATE_LINE;
@@ -108,11 +119,35 @@ void MainWindow::change_fill_color() {
     }
 }
 
-void MainWindow::on_btnClearScreen_clicked() {
-    request_t new_req;
+void MainWindow::on_btnTimeStat_clicked() {
+    if (ui->horizontalLayout != NULL) {
+        QLayoutItem *item;
+        while ((item = ui->horizontalLayout->takeAt(0)) != NULL) {
+            delete item->widget();
+            delete item;
+        }
+    }
 
-    new_req.action = CLEAR;
+    ui->stackedWidget->setCurrentIndex(1);
+
+    show_time_bar(ui->horizontalLayout, (size_t)ui->dspLineLenght->value());
 }
+
+void MainWindow::on_btnSteppingStat_clicked() {
+    if (ui->gridLayout_3 != NULL) {
+        QLayoutItem *item;
+        while ((item = ui->gridLayout_3->takeAt(0)) != NULL) {
+            delete item->widget();
+            delete item;
+        }
+    }
+
+    ui->stackedWidget->setCurrentIndex(2);
+
+    show_step_bar(ui->gridLayout_3, (size_t)ui->dspLineLenght->value());
+}
+
+void MainWindow::on_btnClearScreen_clicked() { ui->graphicsView->scene()->clear(); }
 
 void MainWindow::on_btnBgColorRED_clicked() {
     BG_COLOR = QColor(139, 0, 0);

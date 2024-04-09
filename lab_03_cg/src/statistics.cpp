@@ -292,11 +292,12 @@ void show_step_bar(QGridLayout *layout, size_t len) {
     // Build a chart object
     QChart *chart = new QChart();
     // Building a fold line series object
-    QLineSeries *series = new QLineSeries();
-    for (quint32 i = 0; i < ANGLES_AMOUNT; i++) {
-        // Call the APPEND () interface, passing the parameters X, Y is used to use a set of coordinate data.
+    QLineSeries *DDAseries = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         series->append(angles[i], DDA_steps[i]);
-    }
+    QLineSeries *BRseries = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        series->append(angles[i], DDA_steps[i]);
 
     chart->addSeries(series);
     chart->createDefaultAxes();

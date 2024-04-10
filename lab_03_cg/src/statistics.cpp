@@ -123,7 +123,7 @@ void count_steps_line_bresenham_float(size_t &steps, line_t &line) {
 
     float prev_x = x, prev_y = y;
 
-    for (int i = 0; i <= steps; i++) {
+    for (int i = 0; i <= fsteps; i++) {
         if (round(prev_x) != round(x) && round(prev_y) != round(y)) {
             ++steps;
             prev_x = x;
@@ -175,7 +175,6 @@ void count_steps_line_bresenham_smooth(size_t &steps, line_t &line) {
             x += signX;
             y += signY;
             e -= w;
-            ++steps;
         }
 
         if (prev_x != x && prev_y != y) {
@@ -255,7 +254,7 @@ void show_step_bar(QGridLayout *layout, size_t len) {
         count_steps_line_dda(DDA_steps[cur_angle], line);
         count_steps_line_bresenham_int(Bresenham_int_steps[cur_angle], line);
         count_steps_line_bresenham_float(Bresenham_float_steps[cur_angle], line);
-        count_steps_line_bresenham_smooth(Bresenham_float_steps[cur_angle], line);
+        count_steps_line_bresenham_smooth(Bresenham_smooth_steps[cur_angle], line);
         // draw_line_dda(line, DDA_steps[cur_angle], false);
         rotate_point(line.p2, rotation_data);
     }

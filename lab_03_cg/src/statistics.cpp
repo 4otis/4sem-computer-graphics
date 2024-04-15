@@ -338,8 +338,14 @@ void show_step_bar(QGridLayout *layout, size_t len) {
         rotate_point(line.p2, rotation_data);
     }
 
+    QPen pen;
+    pen.setWidthF(1.3);
+
     QChart *chart1 = new QChart();
     QLineSeries *DDAseries = new QLineSeries();
+    pen.setStyle(Qt::SolidLine);
+    pen.setColor(Qt::blue);
+    DDAseries->setPen(pen);
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         DDAseries->append(angles[i], DDA_steps[i]);
 
@@ -349,31 +355,37 @@ void show_step_bar(QGridLayout *layout, size_t len) {
     chart1->setMaximumHeight(315);
     chart1->createDefaultAxes();
     QChartView *chartView1 = new QChartView(chart1);
-    // chartView->setRenderHint(QPainter::Antialiasing);
+    chartView1->setRenderHint(QPainter::Antialiasing);
 
     QChart *chart2 = new QChart();
     chart2->setTitle("Брезенхем(целые)");
-    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
     chart2->setMaximumWidth(285);
     chart2->setMaximumHeight(315);
     QLineSeries *Bresenham_int_series = new QLineSeries();
+    pen.setStyle(Qt::DashDotLine);
+    pen.setColor(Qt::green);
+    Bresenham_int_series->setPen(pen);
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         Bresenham_int_series->append(angles[i], Bresenham_int_steps[i]);
     chart2->addSeries(Bresenham_int_series);
     chart2->createDefaultAxes();
     QChartView *chartView2 = new QChartView(chart2);
+    chartView2->setRenderHint(QPainter::Antialiasing);
 
     QChart *chart3 = new QChart();
     chart3->setTitle("Брезенхем(веществ.)");
-    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
     chart3->setMaximumWidth(285);
     chart3->setMaximumHeight(315);
     QLineSeries *Bresenham_float_series = new QLineSeries();
+    pen.setStyle(Qt::SolidLine);
+    pen.setColor(Qt::red);
+    Bresenham_float_series->setPen(pen);
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         Bresenham_float_series->append(angles[i], Bresenham_float_steps[i]);
     chart3->addSeries(Bresenham_float_series);
     chart3->createDefaultAxes();
     QChartView *chartView3 = new QChartView(chart3);
+    chartView3->setRenderHint(QPainter::Antialiasing);
 
     QHBoxLayout *l1 = new QHBoxLayout();
     layout->addLayout(l1, 0, 0);
@@ -383,31 +395,86 @@ void show_step_bar(QGridLayout *layout, size_t len) {
 
     QChart *chart4 = new QChart();
     chart4->setTitle("Брезенхем с устр.ступ.");
-    //, "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."
     chart4->setMaximumWidth(285);
     chart4->setMaximumHeight(315);
     QLineSeries *Bresenham_smooth_series = new QLineSeries();
+    pen.setStyle(Qt::DotLine);
+    pen.setColor(Qt::darkGray);
+    Bresenham_smooth_series->setPen(pen);
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         Bresenham_smooth_series->append(angles[i], Bresenham_smooth_steps[i]);
     chart4->addSeries(Bresenham_smooth_series);
     chart4->createDefaultAxes();
     QChartView *chartView4 = new QChartView(chart4);
+    chartView4->setRenderHint(QPainter::Antialiasing);
 
     QChart *chart5 = new QChart();
     chart5->setTitle("ВУ");
     chart5->setMaximumWidth(285);
     chart5->setMaximumHeight(315);
     QLineSeries *WU_series = new QLineSeries();
+    pen.setStyle(Qt::DotLine);
+    pen.setColor(Qt::darkMagenta);
+    WU_series->setPen(pen);
     for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
         WU_series->append(angles[i], WU_steps[i]);
     chart5->addSeries(WU_series);
     chart5->createDefaultAxes();
     QChartView *chartView5 = new QChartView(chart5);
+    chartView5->setRenderHint(QPainter::Antialiasing);
+
+    QChart *chart6 = new QChart();
+    chart6->setTitle("Общий график");
+    chart6->setMaximumWidth(285);
+    chart6->setMaximumHeight(315);
+
+    QLineSeries *DDAseries_copied = new QLineSeries();
+    pen.setStyle(Qt::SolidLine);
+    pen.setColor(Qt::blue);
+    DDAseries_copied->setPen(pen);
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        DDAseries_copied->append(angles[i], DDA_steps[i]);
+
+    QLineSeries *Bresenham_int_series_copied = new QLineSeries();
+    pen.setStyle(Qt::DashDotLine);
+    pen.setColor(Qt::green);
+    Bresenham_int_series_copied->setPen(pen);
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_int_series_copied->append(angles[i], Bresenham_int_steps[i]);
+
+    QLineSeries *Bresenham_float_series_copied = new QLineSeries();
+    pen.setStyle(Qt::SolidLine);
+    pen.setColor(Qt::red);
+    Bresenham_float_series_copied->setPen(pen);
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_float_series_copied->append(angles[i], Bresenham_float_steps[i]);
+
+    QLineSeries *Bresenham_smooth_series_copied = new QLineSeries();
+    pen.setStyle(Qt::DotLine);
+    pen.setColor(Qt::darkGray);
+    Bresenham_smooth_series_copied->setPen(pen);
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        Bresenham_smooth_series_copied->append(angles[i], Bresenham_smooth_steps[i]);
+
+    QLineSeries *WU_series_copied = new QLineSeries();
+    pen.setStyle(Qt::DotLine);
+    pen.setColor(Qt::darkMagenta);
+    WU_series_copied->setPen(pen);
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        WU_series_copied->append(angles[i], WU_steps[i]);
+
+    chart6->addSeries(WU_series_copied);
+    chart6->addSeries(DDAseries_copied);
+    chart6->addSeries(Bresenham_int_series_copied);
+    chart6->addSeries(Bresenham_float_series_copied);
+    chart6->addSeries(Bresenham_smooth_series_copied);
+    chart6->createDefaultAxes();
+    QChartView *chartView6 = new QChartView(chart6);
+    chartView6->setRenderHint(QPainter::Antialiasing);
 
     QHBoxLayout *l2 = new QHBoxLayout();
     layout->addLayout(l2, 1, 0);
     l2->addWidget(chartView4);
     l2->addWidget(chartView5);
-    // l2->addWidget(chartView5);
-    // l2->addWidget(chartView6);
+    l2->addWidget(chartView6);
 }

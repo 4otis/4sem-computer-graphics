@@ -18,5 +18,8 @@ void show_error(error_t error_code) {
     case INVALID_REQUEST_ERROR:
         QMessageBox::critical(NULL, "Ошибка", "Поступивший запрос не является валидным.");
         break;
+    case INVALID_LINE_COORDS_ERROR:
+        QMessageBox::critical(NULL, "Ошибка", "Невырожденный отрезок.");
+        break;
     }
 }

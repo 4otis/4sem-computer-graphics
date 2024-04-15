@@ -53,6 +53,17 @@ qreal get_time_drawline_bresenham_smooth(line_t &line) {
     return (qreal)(std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) / 1000;
 }
 
+qreal get_time_drawline_wu(line_t &line) {
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    for (size_t i = 0; i < 1000; ++i)
+        draw_line_wu(line, true);
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    return (qreal)(std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) / 1000;
+}
+
 void count_steps_line_dda(size_t &steps, line_t &line) {
     float x1 = line.p1.x, y1 = line.p1.y;
     float x2 = line.p2.x, y2 = line.p2.y;
@@ -185,6 +196,74 @@ void count_steps_line_bresenham_smooth(size_t &steps, line_t &line) {
     }
 }
 
+void count_steps_line_wu(size_t &steps, line_t &line) {
+    int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+    int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
+
+    int deltaX = fabs(x2 - x1);
+    int deltaY = fabs(y2 - y1);
+
+    bool was_swaped;
+
+    if (deltaY > deltaX) {
+        int tmpX = x1, tmpY = y1;
+        x1 = x2;
+        y1 = y2;
+        x2 = tmpX;
+        y2 = tmpY;
+
+        was_swaped = true;
+    } else
+        was_swaped = false;
+
+    if (x2 < x1) {
+        int tmp = x1;
+        x1 = x2;
+        x2 = tmp;
+        tmp = y1;
+        y1 = y2;
+        y2 = tmp;
+    }
+
+    deltaX = fabs(x2 - x1);
+    deltaY = fabs(y2 - y1);
+    float tg;
+
+    if (deltaX == 0)
+        tg = 1;
+    else
+        tg = (float)deltaY / deltaX;
+
+    int xend = round(x1);
+    int yend = y1 + tg * (xend - x1);
+    int xpx1 = xend;
+    float y = yend + tg;
+
+    xend = int(x2 + 0.5);
+    int xpx2 = xend;
+
+    int prevX = xpx1, prevY = y1;
+
+    if (was_swaped)
+        for (int x = xpx1; x < xpx2; ++x) {
+            if (prevX != x and prevY != round(y)) {
+                prevX = x;
+                prevY = round(y);
+                ++steps;
+            }
+            y += tg;
+        }
+    else
+        for (int x = xpx1; x < xpx2; ++x) {
+            if (prevX != x and prevY != round(y)) {
+                prevX = x;
+                prevY = round(y);
+                ++steps;
+            }
+            y += tg;
+        }
+}
+
 void show_time_bar(QHBoxLayout *layout, size_t len) {
     QList<qreal> time_list;
 
@@ -196,12 +275,10 @@ void show_time_bar(QHBoxLayout *layout, size_t len) {
     time_list.push_back(get_time_drawline_bresenham_int(line));
     time_list.push_back(get_time_drawline_bresenham_float(line));
     time_list.push_back(get_time_drawline_bresenham_smooth(line));
-    // time_list.push_back(get_time_drawline_wu(line));
-
-    qDebug() << time_list;
+    time_list.push_back(get_time_drawline_wu(line));
 
     auto set0 = new QBarSet("");
-    *set0 << time_list[0] << time_list[1] << time_list[2] << time_list[3];
+    *set0 << time_list[0] << time_list[1] << time_list[2] << time_list[3] << time_list[4];
 
     QBarSeries *series = new QBarSeries;
     series->append(set0);
@@ -210,7 +287,7 @@ void show_time_bar(QHBoxLayout *layout, size_t len) {
     chart->addSeries(series);
     chart->setTitle("Исследование времени работы алгоритмов построения");
 
-    QStringList categories{"ЦДА", "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ."};
+    QStringList categories{"ЦДА", "Брезенхем\n(целые)", "Брезенхем(веществ.)", "Брезенхем с устр.ступ.", "ВУ"};
     auto axisX = new QBarCategoryAxis;
     axisX->append(categories);
 
@@ -221,7 +298,7 @@ void show_time_bar(QHBoxLayout *layout, size_t len) {
     axisY->setTitleText(QString("Миллисекунды (длина линии = %1 )").arg(len));
     auto min = *std::min_element(time_list.begin(), time_list.end());
     auto max = *std::max_element(time_list.begin(), time_list.end());
-    qDebug() << min << max;
+
     axisY->setRange(0, max);
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
@@ -239,6 +316,7 @@ void show_step_bar(QGridLayout *layout, size_t len) {
     size_t Bresenham_int_steps[ANGLES_AMOUNT] = {0};
     size_t Bresenham_float_steps[ANGLES_AMOUNT] = {0};
     size_t Bresenham_smooth_steps[ANGLES_AMOUNT] = {0};
+    size_t WU_steps[ANGLES_AMOUNT] = {0};
     size_t angles[ANGLES_AMOUNT] = {0};
 
     line_t line;
@@ -255,6 +333,7 @@ void show_step_bar(QGridLayout *layout, size_t len) {
         count_steps_line_bresenham_int(Bresenham_int_steps[cur_angle], line);
         count_steps_line_bresenham_float(Bresenham_float_steps[cur_angle], line);
         count_steps_line_bresenham_smooth(Bresenham_smooth_steps[cur_angle], line);
+        count_steps_line_wu(WU_steps[cur_angle], line);
         // draw_line_dda(line, DDA_steps[cur_angle], false);
         rotate_point(line.p2, rotation_data);
     }
@@ -314,9 +393,21 @@ void show_step_bar(QGridLayout *layout, size_t len) {
     chart4->createDefaultAxes();
     QChartView *chartView4 = new QChartView(chart4);
 
+    QChart *chart5 = new QChart();
+    chart5->setTitle("ВУ");
+    chart5->setMaximumWidth(285);
+    chart5->setMaximumHeight(315);
+    QLineSeries *WU_series = new QLineSeries();
+    for (quint32 i = 0; i < ANGLES_AMOUNT; i++)
+        WU_series->append(angles[i], WU_steps[i]);
+    chart5->addSeries(WU_series);
+    chart5->createDefaultAxes();
+    QChartView *chartView5 = new QChartView(chart5);
+
     QHBoxLayout *l2 = new QHBoxLayout();
     layout->addLayout(l2, 1, 0);
     l2->addWidget(chartView4);
+    l2->addWidget(chartView5);
     // l2->addWidget(chartView5);
     // l2->addWidget(chartView6);
 }

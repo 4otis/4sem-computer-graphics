@@ -30,11 +30,17 @@ bool is_lines_empty(lines_t &lines) {
     return true;
 }
 
-void add_coords_to_line(lines_t &lines, build_line_t &data) {
+error_t add_coords_to_line(lines_t &lines, build_line_t &data) {
     two_points_t points_data;
+
+    if (trunc(data.p1.x) == trunc(data.p2.x) && trunc(data.p1.y) == trunc(data.p2.y))
+        return INVALID_LINE_COORDS_ERROR;
+
     points_data = {.p1 = data.p1, .p2 = data.p2};
 
     add_two_points_to_line(lines.arr[0], points_data);
+
+    return SUCCESS;
 }
 
 error_t create_line(lines_t &lines, build_line_t &data) {
@@ -46,23 +52,30 @@ error_t create_line(lines_t &lines, build_line_t &data) {
     if (is_lines_empty(lines))
         rc = MEMORY_ALLOCATION_ERROR;
     else {
-        add_coords_to_line(lines, data);
-        change_lines_color(lines, data.color);
+        if (add_coords_to_line(lines, data))
+            rc = INVALID_LINE_COORDS_ERROR;
+        else
+            change_lines_color(lines, data.color);
     }
 
     return rc;
 }
 
-void add_coords_to_all_lines(lines_t &lines, build_lines_t &data) {
+error_t add_coords_to_all_lines(lines_t &lines, build_lines_t &data) {
     two_points_t points_data;
+
+    if (trunc(data.p1.x) == trunc(data.p2.x) && trunc(data.p1.y) == trunc(data.p2.y))
+        return INVALID_LINE_COORDS_ERROR;
+
     points_data = {.p1 = data.p1, .p2 = data.p2};
     add_two_points_to_line(lines.arr[0], points_data);
 
     for (size_t i = 1; i < lines.alen; i++) {
         rotate_two_points(points_data, data.angle);
         add_two_points_to_line(lines.arr[i], points_data);
-        qDebug() << lines.arr[i].p1.x << lines.arr[i].p1.x << lines.arr[i].p2.x << lines.arr[i].p2.y;
     }
+
+    return SUCCESS;
 }
 
 int calc_lines_amount_by_angle(double angle) {
@@ -79,18 +92,18 @@ error_t create_lines(lines_t &lines, build_lines_t &data) {
     if (tmp_calc == 0)
         rc = WRONG_ANGLE_ERROR;
     else {
-        qDebug() << "alen: " << tmp_calc;
         if ((360 % (int)data.angle) != 0)
             ++tmp_calc;
         lines.alen = tmp_calc;
-        qDebug() << "alen: " << tmp_calc;
         lines.arr = alloc_lines(lines.alen);
 
         if (is_lines_empty(lines))
             rc = MEMORY_ALLOCATION_ERROR;
         else {
-            add_coords_to_all_lines(lines, data);
-            change_lines_color(lines, data.color);
+            if (add_coords_to_all_lines(lines, data))
+                rc = INVALID_LINE_COORDS_ERROR;
+            else
+                change_lines_color(lines, data.color);
         }
     }
 

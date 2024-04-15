@@ -11,8 +11,14 @@ void fill_scene_background(render_t &data) { data.scene->setBackgroundBrush(data
 
 void render_point(render_t &data, point_t &point) { data.p->drawPoint(point.x, point.y); }
 
-void render_point_Af(render_t &data, point_Af_t &point) {
+void render_point_Afdoubled(render_t &data, point_Af_t &point) {
     data.fill_color.setAlphaF(fminf((float)point.Af * 2, 1.));
+    data.p->setPen(data.fill_color);
+    data.p->drawPoint(point.x, point.y);
+}
+
+void render_point_Af(render_t &data, point_Af_t &point) {
+    data.fill_color.setAlphaF(fminf((float)point.Af, 1.));
     data.p->setPen(data.fill_color);
     data.p->drawPoint(point.x, point.y);
 }
@@ -59,6 +65,10 @@ error_t render_all_lines(render_t &data, lines_t &lines) {
             break;
         case BRESENHAM_SMOOTH:
             points_list_Af = draw_line_bresenham_smooth(lines.arr[i], stat_mode);
+            render_points_list_Af(data, points_list_Af);
+            break;
+        case WU:
+            points_list_Af = draw_line_wu(lines.arr[i], stat_mode);
             render_points_list_Af(data, points_list_Af);
             break;
         default:

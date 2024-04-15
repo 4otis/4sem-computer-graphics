@@ -196,6 +196,18 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
     return points_list;
 }
 
+QList<point_Af_t> draw_line_wu(line_t &line, bool stat_mode) {
+    QList<point_Af_t> points_list;
+
+    int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+    int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
+
+    int deltaX = fabs(x2 - x1);
+    int deltaY = fabs(y2 - y1);
+
+    return points_list;
+}
+
 // QList<point_Af_t> draw_line_wu(line_t &line, bool stat_mode) {
 //     QList<point_Af_t> points_list;
 //     point_Af_t point;

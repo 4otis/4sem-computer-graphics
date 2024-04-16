@@ -6,13 +6,13 @@ QList<point_t> draw_line_dda(line_t &line, size_t &steps, bool stat_mode) {
     QList<point_t> points_list;
     point_t point;
 
-    float x1 = line.p1.x, y1 = line.p1.y;
-    float x2 = line.p2.x, y2 = line.p2.y;
+    int x1 = (int)line.p1.x, y1 = (int)line.p1.y;
+    int x2 = (int)line.p2.x, y2 = (int)line.p2.y;
 
-    int dx = (int)x2 - x1;
-    int dy = (int)y2 - y1;
+    int dx = x2 - x1;
+    int dy = y2 - y1;
 
-    int step = (fabs(dx) > fabs(dy)) ? fabs(dx) : fabs(dy);
+    int step = (abs(dx) > abs(dy)) ? abs(dx) : abs(dy);
 
     float x_inc = (float)dx / step;
     float y_inc = (float)dy / step;
@@ -21,7 +21,6 @@ QList<point_t> draw_line_dda(line_t &line, size_t &steps, bool stat_mode) {
         for (int i = 0; i < step; i++) {
             point = {.x = round(x1), .y = round(y1)};
             points_list.push_back(point);
-            // data.p->drawPoint(round(x1), round(y1));
 
             if (round(x1 + x_inc) != round(x1) && round(y1 + y_inc) != round(y1))
                 steps += 1;
@@ -57,7 +56,6 @@ QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode) {
         while (x1 != x2 || y1 != y2) {
             point = {.x = (int)x1, .y = (int)y1};
             points_list.push_back(point);
-            // data.p->drawPoint((int)x1, (int)y1);
             int error2 = error * 2;
             if (error2 > -deltaY) {
                 error -= deltaY;
@@ -70,7 +68,6 @@ QList<point_t> draw_line_bresenham_int(line_t &line, bool stat_mode) {
         }
     } else
         while (x1 != x2 || y1 != y2) {
-            // qDebug() << "dzudz";
             point = {.x = (int)x1, .y = (int)y1};
             int error2 = error * 2;
             if (error2 > -deltaY) {
@@ -90,31 +87,72 @@ QList<point_t> draw_line_bresenham_float(line_t &line, bool stat_mode) {
     QList<point_t> points_list;
     point_t point;
 
-    float x1 = line.p1.x, y1 = line.p1.y;
-    float x2 = line.p2.x, y2 = line.p2.y;
+    int x1 = line.p1.x, y1 = line.p1.y;
+    int x2 = line.p2.x, y2 = line.p2.y;
 
-    float dx = x2 - x1;
-    float dy = y2 - y1;
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
 
-    float steps = std::max(fabs(dx), fabs(dy));
+    if (dx == 0 && dy == 0) {
+        point = {.x = x1, .y = y1};
+        points_list.append(point);
+        return points_list;
+    }
 
-    float xIncrement = dx / steps;
-    float yIncrement = dy / steps;
-    float x = x1;
-    float y = y1;
+    const int signX = x1 < x2 ? 1 : -1;
+    const int signY = y1 < y2 ? 1 : -1;
+
+    bool was_swaped = false;
+    if (dx <= dy) {
+        int tmp = dx;
+        dx = dy;
+        dy = tmp;
+        was_swaped = true;
+    }
+
+    double m = double(dy) / double(dx);
+    double e = m - 0.5;
 
     if (!stat_mode)
-        for (int i = 0; i <= steps; i++) {
-            point = {.x = round(x), .y = round(y)};
-            points_list.push_back(point);
-            x += xIncrement;
-            y += yIncrement;
+        for (int i = 0; i < dx + 1; ++i) {
+            point = {.x = x1, .y = y1};
+            points_list.append(point);
+            if (e >= 0) {
+                if (was_swaped)
+                    x1 += signX;
+                else
+                    y1 += signY;
+
+                e -= 1;
+            }
+            if (e < 0) {
+                if (was_swaped)
+                    y1 += signY;
+                else
+                    x1 += signX;
+
+                e += m;
+            }
         }
     else
-        for (int i = 0; i <= steps; i++) {
-            point = {.x = round(x), .y = round(y)};
-            x += xIncrement;
-            y += yIncrement;
+        for (int i = 0; i < dx + 1; ++i) {
+            point = {.x = x1, .y = y1};
+            if (e >= 0) {
+                if (was_swaped)
+                    x1 += signX;
+                else
+                    y1 += signY;
+
+                e -= 1;
+            }
+            if (e < 0) {
+                if (was_swaped)
+                    y1 += signY;
+                else
+                    x1 += signX;
+
+                e += m;
+            }
         }
 
     return points_list;
@@ -132,11 +170,6 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
 
     int signX = x1 < x2 ? 1 : -1;
     int signY = y1 < y2 ? 1 : -1;
-
-    // if (!deltaX)
-    //     signX = 0;
-    // if (!deltaY)
-    //     signY = 0;
 
     float intensivity = 1;
     bool was_swaped;
@@ -158,7 +191,6 @@ QList<point_Af_t> draw_line_bresenham_smooth(line_t &line, bool stat_mode) {
         point = {.x = x1, .y = y1, .Af = (float)m / 2};
         points_list.push_back(point);
         while (x != x2 || y != y2) {
-            // qDebug() << "e:" << e << "w:" << w << "m:" << m;
 
             if (e < w) {
                 if (was_swaped) // dx < dy

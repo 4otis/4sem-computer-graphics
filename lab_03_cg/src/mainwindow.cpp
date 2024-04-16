@@ -71,9 +71,14 @@ void MainWindow::on_btnCreateLine_clicked() {
     new_req.build_line.color = FILL_COLOR;
 
     error_t rc = handle_action(new_req);
-    if (rc)
+    if (rc) {
         show_error(rc);
-    else {
+        if (rc == INVALID_LINE_COORDS_ERROR) {
+            rc = render();
+            if (rc)
+                show_error(rc);
+        }
+    } else {
         rc = render();
         if (rc)
             show_error(rc);
@@ -91,9 +96,14 @@ void MainWindow::on_btnCreateLines_clicked() {
     new_req.build_lines.angle = ui->dspAngle->value();
 
     error_t rc = handle_action(new_req);
-    if (rc)
+    if (rc) {
         show_error(rc);
-    else {
+        if (rc == INVALID_LINE_COORDS_ERROR) {
+            rc = render();
+            if (rc)
+                show_error(rc);
+        }
+    } else {
         rc = render();
         if (rc)
             show_error(rc);
@@ -170,7 +180,7 @@ void MainWindow::on_btnBgColorGREEN_clicked() {
 }
 
 void MainWindow::on_btnBgColorLIGHTBLUE_clicked() {
-    BG_COLOR = QColor(70, 130, 180);
+    BG_COLOR = QColor(0, 0, 0);
     update_bg_color();
 }
 

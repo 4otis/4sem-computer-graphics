@@ -32,15 +32,16 @@ bool is_lines_empty(lines_t &lines) {
 
 error_t add_coords_to_line(lines_t &lines, build_line_t &data) {
     two_points_t points_data;
+    error_t rc = SUCCESS;
 
     if (trunc(data.p1.x) == trunc(data.p2.x) && trunc(data.p1.y) == trunc(data.p2.y))
-        return INVALID_LINE_COORDS_ERROR;
+        rc = INVALID_LINE_COORDS_ERROR;
 
     points_data = {.p1 = data.p1, .p2 = data.p2};
 
     add_two_points_to_line(lines.arr[0], points_data);
 
-    return SUCCESS;
+    return rc;
 }
 
 error_t create_line(lines_t &lines, build_line_t &data) {
@@ -54,8 +55,8 @@ error_t create_line(lines_t &lines, build_line_t &data) {
     else {
         if (add_coords_to_line(lines, data))
             rc = INVALID_LINE_COORDS_ERROR;
-        else
-            change_lines_color(lines, data.color);
+
+        change_lines_color(lines, data.color);
     }
 
     return rc;
@@ -63,9 +64,10 @@ error_t create_line(lines_t &lines, build_line_t &data) {
 
 error_t add_coords_to_all_lines(lines_t &lines, build_lines_t &data) {
     two_points_t points_data;
+    error_t rc = SUCCESS;
 
     if (trunc(data.p1.x) == trunc(data.p2.x) && trunc(data.p1.y) == trunc(data.p2.y))
-        return INVALID_LINE_COORDS_ERROR;
+        rc = INVALID_LINE_COORDS_ERROR;
 
     points_data = {.p1 = data.p1, .p2 = data.p2};
     add_two_points_to_line(lines.arr[0], points_data);
@@ -75,7 +77,7 @@ error_t add_coords_to_all_lines(lines_t &lines, build_lines_t &data) {
         add_two_points_to_line(lines.arr[i], points_data);
     }
 
-    return SUCCESS;
+    return rc;
 }
 
 int calc_lines_amount_by_angle(double angle) {

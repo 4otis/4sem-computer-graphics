@@ -113,20 +113,22 @@ void MainWindow::on_btnCreateLines_clicked() {
 void MainWindow::update_bg_color() { ui->graphicsView->setBackgroundBrush(BG_COLOR); }
 
 void MainWindow::change_fill_color() {
-    request_t new_req;
+    ui->colorIndicator->setStyleSheet(
+        QString("background-color: rgb(%1, %2, %3)").arg(FILL_COLOR.red()).arg(FILL_COLOR.green()).arg(FILL_COLOR.blue()));
+    // request_t new_req;
 
-    new_req.action = CHANGE_COLOR;
+    // new_req.action = CHANGE_COLOR;
 
-    new_req.new_color.color = FILL_COLOR;
+    // new_req.new_color.color = FILL_COLOR;
 
-    error_t rc = handle_action(new_req);
-    if (rc)
-        show_error(rc);
-    else {
-        rc = render();
-        if (rc)
-            show_error(rc);
-    }
+    // error_t rc = handle_action(new_req);
+    // if (rc)
+    //     show_error(rc);
+    // else {
+    //     rc = render();
+    //     if (rc)
+    //         show_error(rc);
+    // }
 }
 
 void MainWindow::on_btnTimeStat_clicked() {

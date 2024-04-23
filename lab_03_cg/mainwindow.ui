@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1291</width>
-    <height>748</height>
+    <width>1287</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -491,10 +491,10 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>660</y>
-      <width>1261</width>
-      <height>38</height>
+      <width>991</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -524,8 +524,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="15">
-      <widget class="QPushButton" name="btnLineColorLIGHTBLUE">
+     <item row="0" column="1">
+      <widget class="QPushButton" name="btnBgColorRED">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -538,26 +538,31 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(180, 120, 70);</string>
+        <string notr="true">background-color: rgb(139, 0, 0);</string>
        </property>
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_8">
+     <item row="0" column="11">
+      <widget class="QPushButton" name="btnLineColorYELLOW">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
-         <family>Consolas</family>
          <pointsize>16</pointsize>
         </font>
        </property>
-       <property name="text">
-        <string>Фон:</string>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 40, 255);</string>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -582,8 +587,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="btnBgColorYELLOW">
+     <item row="0" column="9">
+      <widget class="QPushButton" name="btnLineColorORANGE">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -596,7 +601,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 215, 0);</string>
+        <string notr="true">background-color: rgb(0, 115, 255);</string>
        </property>
        <property name="text">
         <string/>
@@ -624,24 +629,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="7">
-      <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <family>Consolas</family>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Линия:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="11">
-      <widget class="QPushButton" name="btnLineColorYELLOW">
+     <item row="0" column="3">
+      <widget class="QPushButton" name="btnBgColorYELLOW">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -654,7 +643,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 40, 255);</string>
+        <string notr="true">background-color: rgb(255, 215, 0);</string>
        </property>
        <property name="text">
         <string/>
@@ -682,8 +671,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="btnBgColorRED">
+     <item row="0" column="15">
+      <widget class="QPushButton" name="btnLineColorLIGHTBLUE">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -696,7 +685,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(139, 0, 0);</string>
+        <string notr="true">background-color: rgb(180, 120, 70);</string>
        </property>
        <property name="text">
         <string/>
@@ -724,24 +713,19 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="9">
-      <widget class="QPushButton" name="btnLineColorORANGE">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_8">
        <property name="font">
         <font>
+         <family>Consolas</family>
          <pointsize>16</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 115, 255);</string>
-       </property>
        <property name="text">
-        <string/>
+        <string>Фон:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -784,6 +768,22 @@
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="7">
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Линия:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -889,13 +889,62 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="colorIndicator">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>660</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>660</y>
+      <width>221</width>
+      <height>39</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Текущ. цвет линии:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1291</width>
+     <width>1287</width>
      <height>21</height>
     </rect>
    </property>

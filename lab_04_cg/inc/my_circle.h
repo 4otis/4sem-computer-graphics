@@ -39,6 +39,7 @@ struct build_circles {
 using build_circles_t = struct build_circles;
 
 circle_t init_circle();
+bool is_circle_empty(circle_t &circle);
 error_t build_circle(circle_t &circle, build_circle_t &data);
 
 error_t alloc_circles(circles_t &circles, size_t amount);

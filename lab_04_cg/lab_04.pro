@@ -13,11 +13,18 @@ DEPENDPATH += ./src
 INCLUDEPATH += ./inc
 
 SOURCES += \
+    src/errorcodes.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/my_circle.cpp \
+    src/rendering.cpp
 
 HEADERS += \
-    inc/mainwindow.h
+    inc/algorithms.h \
+    inc/errorcodes.h \
+    inc/mainwindow.h \
+    inc/my_circle.h \
+    inc/rendering.h
 
 FORMS += \
     mainwindow.ui

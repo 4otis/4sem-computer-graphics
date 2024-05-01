@@ -9,6 +9,8 @@ circle_t init_circle() {
     return tmp;
 }
 
+bool is_circles_empty(circle_t &circle) { return (circle.radius == 0) ? true : false; }
+
 error_t build_circle(circle_t &circle, build_circle_t &data) {
     error_t rc = SUCCESS;
 
@@ -48,21 +50,23 @@ bool is_circles_empty(circles_t &circles) {
 
 error_t build_circles(circles_t &circles, build_circles_t &data) {
     error_t rc = SUCCESS;
+
     if (is_circles_empty(circles))
-        rc = ;
+        rc = MEMORY_ALLOCATION_ERROR;
+    else {
+        circles.arr[0].centerX = data.centerX;
+        circles.arr[0].centerY = data.centerY;
+        circles.arr[0].radius = data.basic_radius;
 
-    circles.arr[0].centerX = data.centerX;
-    circles.arr[0].centerY = data.centerY;
-    circles.arr[0].radius = data.basic_radius;
+        for (size_t i = 1; i < data.amount; ++i) {
+            circles.arr[i].centerX = data.centerX;
+            circles.arr[i].centerY = data.centerY;
+            circles.arr[i].radius = circles.arr[i - 1].radius + data.step;
+        }
 
-    for (size_t i = 1; i < data.amount; ++i) {
-        circles.arr[i].centerX = data.centerX;
-        circles.arr[i].centerY = data.centerY;
-        circles.arr[i].radius = circles.arr[i - 1].radius + data.step;
+        circles.alen = data.amount;
+        circles.color = data.color;
     }
-
-    circles.alen = data.amount;
-    circles.color = data.color;
 
     return rc;
 }

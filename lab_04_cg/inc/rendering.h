@@ -6,20 +6,15 @@
 #include <QPainter>
 #include <QPoint>
 
-#include "algorithms.h"
+#include "draw_algorithms.h"
 #include "my_circle.h"
+// #include "my_ellipse.h"
 
 struct render {
     QGraphicsScene *scene;
     QPainter *p;
     double width;
     double height;
-    // union {
-    //     circle_t render_circle;
-    //     circles_t render_circles;
-    //     ellipse_t render_ellipse;
-    //     ellipses_t render_ellipses;
-    // };
     algorithm_t algorithm;
 };
 using render_t = struct render;

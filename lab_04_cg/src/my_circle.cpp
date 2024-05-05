@@ -9,7 +9,14 @@ circle_t init_circle() {
     return tmp;
 }
 
-bool is_circles_empty(circle_t &circle) { return (circle.radius == 0) ? true : false; }
+// bool is_circle_empty(circle_t &circle) { return ((circle.radius == 0) ? true : false);
+// }
+
+bool is_circle_empty(circle_t &circle) {
+    if (circle.radius == 0)
+        return true;
+    return false;
+}
 
 error_t build_circle(circle_t &circle, build_circle_t &data) {
     error_t rc = SUCCESS;

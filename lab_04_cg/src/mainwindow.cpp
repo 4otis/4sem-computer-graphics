@@ -41,6 +41,15 @@ algorithm_t MainWindow::get_draw_alg() {
     return BUILT_IN;
 }
 
+void MainWindow::update_bg_color() { ui->graphicsView->setBackgroundBrush(BG_COLOR); }
+
+void MainWindow::change_fill_color() {
+    ui->colorIndicator->setStyleSheet(QString("background-color: rgb(%1, %2, %3)")
+                                          .arg(FILL_COLOR.red())
+                                          .arg(FILL_COLOR.green())
+                                          .arg(FILL_COLOR.blue()));
+}
+
 void MainWindow::on_btnBuildCircle_clicked() {
     error_t rc;
     circle_t circle = init_circle();
@@ -50,10 +59,57 @@ void MainWindow::on_btnBuildCircle_clicked() {
                            .radius = ui->dspCircleRadius->value(),
                            .color = FILL_COLOR};
     rc = build_circle(circle, data);
+
     if (rc)
         show_error(rc);
     else {
         render_data.algorithm = get_draw_alg();
         render_circle(render_data, circle);
     }
+
+    canonic_circle(circle);
 }
+
+void MainWindow::on_btnClearScreen_clicked() { ui->graphicsView->scene()->clear(); }
+
+void MainWindow::on_btnBgColorRED_clicked() {
+    BG_COLOR = QColor(139, 0, 0);
+    update_bg_color();
+}
+
+void MainWindow::on_btnBgColorORANGE_clicked() {
+    BG_COLOR = QColor(255, 140, 0);
+    update_bg_color();
+}
+
+void MainWindow::on_btnBgColorYELLOW_clicked() {
+    BG_COLOR = QColor(255, 215, 0);
+    update_bg_color();
+}
+
+void MainWindow::on_btnBgColorGREEN_clicked() {
+    BG_COLOR = QColor(0, 100, 0);
+    update_bg_color();
+}
+
+void MainWindow::on_btnBgColorBLACK_clicked() {
+    BG_COLOR = QColor(0, 0, 0);
+    update_bg_color();
+}
+
+void MainWindow::on_btnBgColorWHITE_clicked() {
+    BG_COLOR = QColor(255, 255, 255);
+    update_bg_color();
+}
+
+void MainWindow::on_btnFillColorRED_clicked() { FILL_COLOR = QColor(139, 0, 0); }
+
+void MainWindow::on_btnFillColorORANGE_clicked() { FILL_COLOR = QColor(255, 140, 0); }
+
+void MainWindow::on_btnFillColorYELLOW_clicked() { FILL_COLOR = QColor(255, 215, 0); }
+
+void MainWindow::on_btnFillColorGREEN_clicked() { FILL_COLOR = QColor(0, 100, 0); }
+
+void MainWindow::on_btnFillColorBLACK_clicked() { FILL_COLOR = QColor(0, 0, 0); }
+
+void MainWindow::on_btnFillColorWHITE_clicked() { FILL_COLOR = QColor(255, 255, 255); }

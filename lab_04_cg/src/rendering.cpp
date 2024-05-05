@@ -1,9 +1,30 @@
 #include "rendering.h"
+#include <QDebug>
 
-render_circle_canonic(render_t &data, circle_t &circle) {}
+void render_point(render_t &data, point_t &point) {
+    data.p->drawPoint(round(point.x), round(point.y));
+}
+
+void render_builtin_circle(render_t &data, circle_t &circle) {
+    data.p->drawEllipse(QPoint(circle.centerX, circle.centerY), circle.radius,
+                        circle.radius);
+}
+
+// void render_point(render_t &data, point_t &point) { data.p->drawPoint(point.x,
+// point.y); }
 
 error_t render_circle(render_t &data, circle_t &circle) {
     error_t rc = SUCCESS;
+
+    QPixmap pixmap = QPixmap(data.width, data.height);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+
+    data.p = &painter;
+    // lines.color.setAlphaF();
+    // data.fill_color = circle.color;
+    data.p->setPen(circle.color);
 
     if (is_circle_empty(circle))
         rc = CIRCLE_NOT_BUILDED;
@@ -11,12 +32,30 @@ error_t render_circle(render_t &data, circle_t &circle) {
         QList<point_t> points;
         switch (data.algorithm) {
         case CANONIC:
-            render_circle_canonic(data, circle);
+            points = canonic_circle(circle);
+            break;
+        case PARAMETRIC:
+            points = param_circle(circle);
+            break;
+        case MIDPOINT:
+            points = midpoint_circle(circle);
+            break;
+        case BRESENHAM:
+            points = bresenham_circle(circle);
+            break;
+        case BUILT_IN:
+            render_builtin_circle(data, circle);
             break;
         default:
             break;
         }
+
+        foreach (point_t point, points)
+            render_point(data, point);
     }
+
+    if (rc == SUCCESS)
+        data.scene->addPixmap(pixmap);
 
     return rc;
 }

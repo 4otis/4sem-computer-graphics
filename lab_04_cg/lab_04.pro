@@ -13,17 +13,20 @@ DEPENDPATH += ./src
 INCLUDEPATH += ./inc
 
 SOURCES += \
+    src/draw_algorithms.cpp \
     src/errorcodes.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/my_circle.cpp \
+    src/my_ellipse.cpp \
     src/rendering.cpp
 
 HEADERS += \
-    inc/algorithms.h \
+    inc/draw_algorithms.h \
     inc/errorcodes.h \
     inc/mainwindow.h \
     inc/my_circle.h \
+    inc/my_ellipse.h \
     inc/rendering.h
 
 FORMS += \

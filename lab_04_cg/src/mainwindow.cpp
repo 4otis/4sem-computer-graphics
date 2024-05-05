@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "errorcodes.h"
 #include "my_circle.h"
+#include "my_ellipse.h"
 #include "rendering.h"
 #include "ui_mainwindow.h"
 
@@ -66,8 +67,25 @@ void MainWindow::on_btnBuildCircle_clicked() {
         render_data.algorithm = get_draw_alg();
         render_circle(render_data, circle);
     }
+}
 
-    canonic_circle(circle);
+void MainWindow::on_btnBuildEllipse_clicked() {
+    error_t rc;
+    ellipse_t ellipse = init_ellipse();
+
+    build_ellipse_t data = {.centerX = ui->dspCenterX->value(),
+                            .centerY = ui->dspCenterY->value(),
+                            .rX = ui->dspEllipseRadiusX->value(),
+                            .rY = ui->dspEllipseRadiusY->value(),
+                            .color = FILL_COLOR};
+    rc = build_ellipse(ellipse, data);
+
+    if (rc)
+        show_error(rc);
+    else {
+        render_data.algorithm = get_draw_alg();
+        render_ellipse(render_data, ellipse);
+    }
 }
 
 void MainWindow::on_btnClearScreen_clicked() { ui->graphicsView->scene()->clear(); }

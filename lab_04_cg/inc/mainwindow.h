@@ -38,6 +38,8 @@ private slots:
     void on_btnFillColorBLACK_clicked();
     void on_btnFillColorWHITE_clicked();
 
+    void on_btnBuildEllipse_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

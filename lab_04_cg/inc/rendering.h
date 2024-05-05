@@ -8,7 +8,7 @@
 
 #include "draw_algorithms.h"
 #include "my_circle.h"
-// #include "my_ellipse.h"
+#include "my_ellipse.h"
 
 struct render {
     QGraphicsScene *scene;
@@ -21,6 +21,6 @@ using render_t = struct render;
 
 error_t render_circle(render_t &data, circle_t &circle);
 
-// error_t render_ellipse(render_t &data, ellipse_t &ellipse);
+error_t render_ellipse(render_t &data, ellipse_t &ellipse);
 
 #endif // RENDERING_H

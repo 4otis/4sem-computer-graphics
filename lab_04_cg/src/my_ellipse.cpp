@@ -7,6 +7,7 @@ ellipse_t init_ellipse() {
     tmp.rX = 0;
     tmp.rY = 0;
     tmp.color = QColor(Qt::black);
+    return tmp;
 }
 
 bool is_ellipse_empty(ellipse_t &ellipse) {

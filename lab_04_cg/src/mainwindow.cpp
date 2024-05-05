@@ -120,14 +120,32 @@ void MainWindow::on_btnBgColorWHITE_clicked() {
     update_bg_color();
 }
 
-void MainWindow::on_btnFillColorRED_clicked() { FILL_COLOR = QColor(139, 0, 0); }
+void MainWindow::on_btnFillColorRED_clicked() {
+    FILL_COLOR = QColor(139, 0, 0);
+    change_fill_color();
+}
 
-void MainWindow::on_btnFillColorORANGE_clicked() { FILL_COLOR = QColor(255, 140, 0); }
+void MainWindow::on_btnFillColorORANGE_clicked() {
+    FILL_COLOR = QColor(255, 140, 0);
+    change_fill_color();
+}
 
-void MainWindow::on_btnFillColorYELLOW_clicked() { FILL_COLOR = QColor(255, 215, 0); }
+void MainWindow::on_btnFillColorYELLOW_clicked() {
+    FILL_COLOR = QColor(255, 215, 0);
+    change_fill_color();
+}
 
-void MainWindow::on_btnFillColorGREEN_clicked() { FILL_COLOR = QColor(0, 100, 0); }
+void MainWindow::on_btnFillColorGREEN_clicked() {
+    FILL_COLOR = QColor(0, 100, 0);
+    change_fill_color();
+}
 
-void MainWindow::on_btnFillColorBLACK_clicked() { FILL_COLOR = QColor(0, 0, 0); }
+void MainWindow::on_btnFillColorBLACK_clicked() {
+    FILL_COLOR = QColor(0, 0, 0);
+    change_fill_color();
+}
 
-void MainWindow::on_btnFillColorWHITE_clicked() { FILL_COLOR = QColor(255, 255, 255); }
+void MainWindow::on_btnFillColorWHITE_clicked() {
+    FILL_COLOR = QColor(255, 255, 255);
+    change_fill_color();
+}

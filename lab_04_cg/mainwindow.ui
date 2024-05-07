@@ -177,6 +177,9 @@
        <property name="maximum">
         <double>10000000.000000000000000</double>
        </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="4" column="2">
@@ -233,6 +236,9 @@
        </property>
        <property name="maximum">
         <double>10000000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -360,7 +366,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>100.000000000000000</double>
+        <double>420.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -585,6 +591,9 @@
        <property name="maximum">
         <double>10000000.000000000000000</double>
        </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="10" column="2" colspan="2">
@@ -625,6 +634,9 @@
        </property>
        <property name="maximum">
         <double>10000000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -689,6 +701,9 @@
        <property name="maximum">
         <double>10000000.000000000000000</double>
        </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="2" column="3">
@@ -715,7 +730,7 @@
         <double>10000000.000000000000000</double>
        </property>
        <property name="value">
-        <double>100.000000000000000</double>
+        <double>350.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -1109,7 +1124,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_3">
-     <widget class="QWidget" name="gridLayoutWidget_3">
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -1118,7 +1133,7 @@
         <height>641</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_3"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </widget>
     </widget>
    </widget>

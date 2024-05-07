@@ -3,6 +3,7 @@
 #include "my_circle.h"
 #include "my_ellipse.h"
 #include "rendering.h"
+#include "statistics.h"
 #include "ui_mainwindow.h"
 
 QColor BG_COLOR = QColor(255, 255, 255);
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow() { delete ui; }
 
 algorithm_t MainWindow::get_draw_alg() {
+    ui->stackedWidget->setCurrentIndex(0);
     int ind = ui->comboBox->currentIndex();
     switch (ind) {
     case 0:
@@ -42,9 +44,13 @@ algorithm_t MainWindow::get_draw_alg() {
     return BUILT_IN;
 }
 
-void MainWindow::update_bg_color() { ui->graphicsView->setBackgroundBrush(BG_COLOR); }
+void MainWindow::update_bg_color() {
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->graphicsView->setBackgroundBrush(BG_COLOR);
+}
 
 void MainWindow::change_fill_color() {
+    ui->stackedWidget->setCurrentIndex(0);
     ui->colorIndicator->setStyleSheet(QString("background-color: rgb(%1, %2, %3)")
                                           .arg(FILL_COLOR.red())
                                           .arg(FILL_COLOR.green())
@@ -148,4 +154,81 @@ void MainWindow::on_btnFillColorBLACK_clicked() {
 void MainWindow::on_btnFillColorWHITE_clicked() {
     FILL_COLOR = QColor(255, 255, 255);
     change_fill_color();
+}
+
+void MainWindow::on_btnBuildCircles_clicked() {
+    error_t rc;
+    circles_t circles = init_circles();
+
+    build_circles_t data = {.step = ui->dspStep->value(),
+                            .amount = ui->dspAmount->value(),
+                            .centerX = ui->dspCenterX->value(),
+                            .centerY = ui->dspCenterY->value(),
+                            .basic_radius = ui->dspCirclesRadius->value(),
+                            .color = FILL_COLOR};
+
+    alloc_circles(circles, data.amount);
+    rc = build_circles(circles, data);
+
+    if (rc)
+        show_error(rc);
+    else {
+        render_data.algorithm = get_draw_alg();
+        render_circles(render_data, circles);
+    }
+
+    destroy_circles(circles);
+}
+
+void MainWindow::on_btnBuildEllipses_clicked() {
+    error_t rc;
+    ellipses_t ellipses = init_ellipses();
+
+    build_ellipses_t data = {.step = ui->dspStep->value(),
+                             .amount = ui->dspAmount->value(),
+                             .centerX = ui->dspCenterX->value(),
+                             .centerY = ui->dspCenterY->value(),
+                             .basic_rX = ui->dspEllipsesRadiusX->value(),
+                             .basic_rY = ui->dspEllipsesRadiusY->value(),
+                             .color = FILL_COLOR};
+
+    alloc_ellipses(ellipses, data.amount);
+    rc = build_ellipses(ellipses, data);
+
+    if (rc)
+        show_error(rc);
+    else {
+        render_data.algorithm = get_draw_alg();
+        render_ellipses(render_data, ellipses);
+    }
+
+    destroy_ellipses(ellipses);
+}
+
+void MainWindow::on_btnShowTimeStatCircles_clicked() {
+    if (ui->horizontalLayout != NULL) {
+        QLayoutItem *item;
+        while ((item = ui->horizontalLayout->takeAt(0)) != NULL) {
+            delete item->widget();
+            delete item;
+        }
+    }
+
+    ui->stackedWidget->setCurrentIndex(1);
+
+    show_time_bar_circles(ui->horizontalLayout);
+}
+
+void MainWindow::on_btnShowTimeStatEllipses_clicked() {
+    if (ui->horizontalLayout_2 != NULL) {
+        QLayoutItem *item;
+        while ((item = ui->horizontalLayout_2->takeAt(0)) != NULL) {
+            delete item->widget();
+            delete item;
+        }
+    }
+
+    ui->stackedWidget->setCurrentIndex(2);
+
+    show_time_bar_ellipses(ui->horizontalLayout_2);
 }

@@ -22,6 +22,7 @@ public:
 
 private slots:
     void on_btnBuildCircle_clicked();
+    void on_btnBuildEllipse_clicked();
     void on_btnClearScreen_clicked();
 
     void on_btnBgColorRED_clicked();
@@ -38,7 +39,12 @@ private slots:
     void on_btnFillColorBLACK_clicked();
     void on_btnFillColorWHITE_clicked();
 
-    void on_btnBuildEllipse_clicked();
+    void on_btnBuildCircles_clicked();
+    void on_btnBuildEllipses_clicked();
+
+    void on_btnShowTimeStatCircles_clicked();
+
+    void on_btnShowTimeStatEllipses_clicked();
 
 private:
     Ui::MainWindow *ui;

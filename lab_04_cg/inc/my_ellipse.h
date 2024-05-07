@@ -26,7 +26,6 @@ using build_ellipse_t = struct build_ellipse;
 struct my_ellipses {
     ellipse_t *arr;
     size_t alen;
-    QColor color;
 };
 using ellipses_t = struct my_ellipses;
 

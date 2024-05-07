@@ -24,7 +24,6 @@ using build_circle_t = struct build_circle;
 struct my_circles {
     circle_t *arr;
     size_t alen;
-    QColor color;
 };
 using circles_t = struct my_circles;
 

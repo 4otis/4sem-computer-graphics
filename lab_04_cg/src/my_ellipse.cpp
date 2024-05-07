@@ -44,7 +44,6 @@ ellipses_t init_ellipses() {
     ellipses_t tmp;
     tmp.arr = nullptr;
     tmp.alen = 0;
-    tmp.color = QColor(Qt::black);
     return tmp;
 }
 
@@ -63,16 +62,17 @@ error_t build_ellipses(ellipses_t &ellipses, build_ellipses_t &data) {
         ellipses.arr[0].centerY = data.centerY;
         ellipses.arr[0].rX = data.basic_rX;
         ellipses.arr[0].rY = data.basic_rY;
+        ellipses.arr[0].color = data.color;
 
         for (size_t i = 1; i < data.amount; ++i) {
             ellipses.arr[i].centerX = data.centerX;
             ellipses.arr[i].centerY = data.centerY;
-            ellipses.arr[0].rX = ellipses.arr[i - 1].rX + data.step;
-            ellipses.arr[0].rY = ellipses.arr[i - 1].rY + data.step;
+            ellipses.arr[i].rX = ellipses.arr[i - 1].rX + data.step;
+            ellipses.arr[i].rY = ellipses.arr[i - 1].rY + data.step;
+            ellipses.arr[i].color = data.color;
         }
 
         ellipses.alen = data.amount;
-        ellipses.color = data.color;
     }
 
     return rc;

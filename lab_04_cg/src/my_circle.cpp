@@ -45,7 +45,6 @@ circles_t init_circles() {
     circles_t tmp;
     tmp.arr = nullptr;
     tmp.alen = 0;
-    tmp.color = QColor(Qt::black);
     return tmp;
 }
 
@@ -64,15 +63,16 @@ error_t build_circles(circles_t &circles, build_circles_t &data) {
         circles.arr[0].centerX = data.centerX;
         circles.arr[0].centerY = data.centerY;
         circles.arr[0].radius = data.basic_radius;
+        circles.arr[0].color = data.color;
 
         for (size_t i = 1; i < data.amount; ++i) {
             circles.arr[i].centerX = data.centerX;
             circles.arr[i].centerY = data.centerY;
             circles.arr[i].radius = circles.arr[i - 1].radius + data.step;
+            circles.arr[i].color = data.color;
         }
 
         circles.alen = data.amount;
-        circles.color = data.color;
     }
 
     return rc;

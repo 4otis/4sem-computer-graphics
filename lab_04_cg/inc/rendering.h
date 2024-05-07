@@ -20,7 +20,9 @@ struct render {
 using render_t = struct render;
 
 error_t render_circle(render_t &data, circle_t &circle);
+error_t render_circles(render_t &data, circles_t &circles);
 
 error_t render_ellipse(render_t &data, ellipse_t &ellipse);
+error_t render_ellipses(render_t &data, ellipses_t &ellipses);
 
 #endif // RENDERING_H

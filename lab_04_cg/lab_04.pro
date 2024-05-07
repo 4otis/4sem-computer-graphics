@@ -19,7 +19,8 @@ SOURCES += \
     src/mainwindow.cpp \
     src/my_circle.cpp \
     src/my_ellipse.cpp \
-    src/rendering.cpp
+    src/rendering.cpp \
+    src/statistics.cpp
 
 HEADERS += \
     inc/draw_algorithms.h \
@@ -27,7 +28,8 @@ HEADERS += \
     inc/mainwindow.h \
     inc/my_circle.h \
     inc/my_ellipse.h \
-    inc/rendering.h
+    inc/rendering.h \
+    inc/statistics.h
 
 FORMS += \
     mainwindow.ui

@@ -15,11 +15,15 @@ INCLUDEPATH += ./inc
 SOURCES += \
     src/errorcodes.cpp \
     src/mainwindow.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/my_point.cpp \
+    src/rendering.cpp
 
 HEADERS += \
     inc/errorcodes.h \
-    inc/mainwindow.h
+    inc/mainwindow.h \
+    inc/my_point.h \
+    inc/rendering.h
 
 FORMS += \
     mainwindow.ui

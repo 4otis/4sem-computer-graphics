@@ -6,17 +6,19 @@ points_t init_points() {
     tmp.alen = 0;
     tmp.capacity = 0;
     tmp.color = QColor(Qt::black);
+    return tmp;
 }
 
 error_t alloc_points(points_t &points, size_t amount) {
     error_t rc = SUCCESS;
 
-    points.arr = (point_t *)malloc(sizeof(point_t) * amount);
-    if (!points.arr)
+    point_t *tmp = (point_t *)realloc(points.arr, sizeof(point_t) * amount);
+    if (!tmp)
         rc = MEMORY_ALLOCATION_ERROR;
-    else
+    else {
+        points.arr = tmp;
         points.capacity = amount;
-
+    }
     return rc;
 }
 

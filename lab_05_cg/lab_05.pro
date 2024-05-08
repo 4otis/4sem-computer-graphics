@@ -22,8 +22,8 @@ SOURCES += \
 HEADERS += \
     inc/errorcodes.h \
     inc/mainwindow.h \
+    inc/my_graphicsview.h \
     inc/my_point.h \
-    inc/mygraphicsview.h \
     inc/rendering.h
 
 FORMS += \

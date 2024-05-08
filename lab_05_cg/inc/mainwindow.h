@@ -17,6 +17,7 @@ public:
     ~MainWindow();
     void update_bg_color();
     void change_fill_color();
+    void add_item_to_list(QString str);
 
 private slots:
     void on_btnClearScreen_clicked();
@@ -35,7 +36,12 @@ private slots:
     void on_btnFillColorBLACK_clicked();
     void on_btnFillColorWHITE_clicked();
 
+    void on_btnBuildPoint_clicked();
+
+    void on_btnConnectAllPoints_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H

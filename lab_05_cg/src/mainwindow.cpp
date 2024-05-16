@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "errorcodes.h"
-#include "my_point.h"
 #include "my_graphicsview.h"
+#include "my_point.h"
 #include "rendering.h"
 #include "ui_mainwindow.h"
 
@@ -77,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     render_data.scene = graphicsView->scene();
     render_data.width = graphicsView->width();
     render_data.height = graphicsView->height();
+    render_data.pixmap = QPixmap(data.width, data.height);
+    render_data.pixmap.fill(Qt::transparent);
 
     POINTS = init_points();
     error_t rc = alloc_points(POINTS, INIT_POINTS_N);
@@ -104,6 +106,8 @@ void MainWindow::change_fill_color() {
 }
 
 void MainWindow::on_btnClearScreen_clicked() {
+    render_data.pixmap = QPixmap(data.width, data.height);
+    render_data.pixmap.fill(Qt::transparent);
     graphicsView->scene()->clear();
     ui->listWidget->clear();
     POINTS.alen = 0;
@@ -199,4 +203,12 @@ void MainWindow::on_btnConnectAllPoints_clicked() {
     error_t rc = SUCCESS;
     if (POINTS.alen > 3)
         rc = render_all_connecting_edges(render_data, POINTS);
+}
+
+void MainWindow::on_btnFill_clicked() {
+    error_t rc = SUCCESS;
+    if (POINTS.alen > 3) {
+        edges_t edges = get_edges_from_points(POINTS);
+        rc = render_fill_by_edges(render_data, edges);
+    }
 }

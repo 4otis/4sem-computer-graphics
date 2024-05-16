@@ -40,6 +40,8 @@ private slots:
 
     void on_btnConnectAllPoints_clicked();
 
+    void on_btnFill_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

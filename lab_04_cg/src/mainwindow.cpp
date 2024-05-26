@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     this->setWindowTitle("Лабораторная работа 4");
-    qDebug() << "babah";
+    // qDebug() << "babah";
 
     ui->graphicsView->setScene(scene);
 
